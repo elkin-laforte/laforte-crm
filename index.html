@@ -3,123 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LaForte Insurance | Sales & Telephony Command Center</title>
+  <title>LaForte Insurance | Hub Comercial & Telemetría</title>
+  
+  <!-- Tailwind CSS CDN Oficial -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            laforte: {
+              dark: '#070B14',
+              surface: '#0F172A',
+              card: '#131D33',
+              border: '#1E293B',
+              orange: '#EA580C',
+              orangeHover: '#C2410C',
+              orangeGlow: 'rgba(234, 88, 12, 0.25)',
+              emerald: '#10B981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts & Font Awesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    :root {
-      --bg-dark: #070B14;
-      --bg-card: #0F172A;
-      --bg-card-hover: #162038;
-      --border-card: #1E293B;
-      --orange-brand: #EA580C;
-      --orange-glow: rgba(234, 88, 12, 0.25);
-      --orange-light: #FB923C;
-      --navy-deep: #030712;
-      --text-main: #F8FAFC;
-      --text-muted: #94A3B8;
-      --emerald-accent: #10B981;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
       font-family: 'Plus Jakarta Sans', sans-serif;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
+      background-color: #070B14;
+      color: #F8FAFC;
     }
-
-    .glass-header {
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border-card);
-    }
-
-    .badge-orange {
-      background: rgba(234, 88, 12, 0.12);
-      border: 1px solid rgba(234, 88, 12, 0.35);
-      color: #FB923C;
-    }
-
-    .badge-emerald {
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      color: #34D399;
-    }
-
-    .badge-agent {
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      color: #38BDF8;
-    }
-
-    .btn-brand-orange {
-      background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%);
-      color: #FFFFFF;
-      box-shadow: 0 4px 14px var(--orange-glow);
-      transition: all 0.2s ease;
-    }
-    .btn-brand-orange:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.45);
-      filter: brightness(1.08);
-    }
-
-    .filter-tab {
-      background: transparent;
-      color: var(--text-muted);
-      border: 1px solid transparent;
-      transition: all 0.2s ease;
-      font-size: 0.875rem;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      border-radius: 0.65rem;
-      cursor: pointer;
-    }
-    .filter-tab:hover {
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.04);
-    }
-    .filter-tab.active {
-      background: var(--orange-brand);
-      color: #FFFFFF;
-      box-shadow: 0 4px 12px var(--orange-glow);
-    }
-
-    .lead-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: 1rem;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: all 0.2s ease;
-    }
-    .lead-card:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(234, 88, 12, 0.4);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-    }
-
     .font-mono-code {
       font-family: 'JetBrains Mono', monospace;
     }
+    .btn-orange-glow {
+      box-shadow: 0 4px 14px rgba(234, 88, 12, 0.28);
+    }
+    .btn-orange-glow:hover {
+      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.45);
+    }
   </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="min-h-screen flex flex-col bg-[#070B14] text-slate-100">
 
-  <!-- TOP NAVBAR CON LOGO LAFORTE -->
-  <header class="glass-header sticky top-0 z-50 px-6 py-3.5 flex flex-wrap justify-between items-center gap-4">
-    <div class="flex items-center gap-3.5">
-      <!-- Monograma LaForte Oficial SVG -->
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-600 to-amber-700 flex items-center justify-center shadow-lg shadow-orange-950/40 border border-orange-500/30">
+  <!-- TOP BAR / HEADER -->
+  <header class="sticky top-0 z-50 bg-[#0F172A]/90 backdrop-blur-md border-b border-slate-800 px-6 py-3.5 flex flex-wrap justify-between items-center gap-4">
+    <!-- Brand Logo -->
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-600 to-amber-700 flex items-center justify-center border border-orange-500/40 shadow-lg shadow-orange-950/50">
         <svg class="w-6 h-6 text-white" viewBox="0 0 100 100" fill="currentColor">
           <path d="M22 18 H40 V64 H78 V82 H22 Z"/>
           <path d="M46 18 H80 V34 H46 Z" fill-opacity="0.85"/>
@@ -128,83 +67,85 @@
       <div>
         <div class="flex items-center gap-2">
           <span class="text-lg font-extrabold tracking-tight text-white uppercase">LaForte <span class="text-orange-500">Insurance</span></span>
-          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full badge-orange uppercase tracking-wider">Enterprise Ops</span>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/30 uppercase">Enterprise</span>
         </div>
-        <p class="text-xs text-slate-400">Hub de Televentas & Analytics en Vivo</p>
+        <p class="text-xs text-slate-400">Portal de Operaciones & CRM Comercial</p>
       </div>
     </div>
 
-    <!-- SELECTOR DE VISTAS (DEFAULT: TEAM) -->
-    <div class="flex items-center gap-1.5 bg-slate-950/80 p-1 rounded-xl border border-slate-800">
-      <button onclick="cambiarVista('ALL')" id="tab-all" class="filter-tab active"><i class="fa-solid fa-users mr-1.5"></i> Equipo (Todos)</button>
-      <button onclick="cambiarVista('Wendy Falon')" id="tab-wendy" class="filter-tab">Wendy</button>
-      <button onclick="cambiarVista('Juan Pablo')" id="tab-juan" class="filter-tab">Juan Pablo</button>
-      <button onclick="cambiarVista('Cristian')" id="tab-cristian" class="filter-tab">Cristian</button>
-      <button onclick="cambiarVista('KPIs')" id="tab-kpis" class="filter-tab text-emerald-400 hover:text-emerald-300"><i class="fa-solid fa-chart-line mr-1.5"></i> Tablero KPIs</button>
+    <!-- Navegación entre Vistas -->
+    <div class="flex items-center gap-1 bg-[#030712] p-1 rounded-xl border border-slate-800">
+      <button onclick="cambiarVista('ALL')" id="tab-all" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">
+        <i class="fa-solid fa-users mr-1.5"></i> Equipo
+      </button>
+      <button onclick="cambiarVista('Wendy Falon')" id="tab-wendy" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">Wendy</button>
+      <button onclick="cambiarVista('Juan Pablo')" id="tab-juan" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">Juan Pablo</button>
+      <button onclick="cambiarVista('Cristian')" id="tab-cristian" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">Cristian</button>
+      <button onclick="cambiarVista('KPIs')" id="tab-kpis" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition">
+        <i class="fa-solid fa-chart-line mr-1.5"></i> Tablero KPIs
+      </button>
     </div>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
+  <!-- CONTENEDOR PRINCIPAL -->
   <main class="flex-1 max-w-7xl w-full mx-auto p-6 flex flex-col gap-6">
 
-    <!-- SUB-BARRA DE MÉTRICAS & BÚSQUEDA -->
-    <div id="toolbar-leads" class="flex flex-wrap justify-between items-center gap-4 bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+    <!-- SUB-BARRA DE ESTADO Y FILTROS -->
+    <div id="toolbar-leads" class="flex flex-wrap justify-between items-center gap-4 bg-[#0F172A] p-4 rounded-2xl border border-slate-800">
       <div>
         <h2 id="vista-titulo" class="text-xl font-bold text-white flex items-center gap-2">
           <i class="fa-solid fa-layer-group text-orange-500"></i> Cartera General de Prospección
         </h2>
-        <p id="vista-subtitulo" class="text-xs text-slate-400 mt-0.5">Mostrando prospectos con telefonía validada listos para marcación</p>
+        <p id="vista-subtitulo" class="text-xs text-slate-400 mt-0.5">Mostrando prospectos balanceados entre Wendy, Juan Pablo y Cristian</p>
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- Contador rápido -->
-        <div class="flex items-center gap-2 bg-slate-950 px-3.5 py-1.5 rounded-xl border border-slate-800">
-          <span class="text-xs text-slate-400">Total en pantalla:</span>
+        <div class="flex items-center gap-2 bg-[#030712] px-3.5 py-1.5 rounded-xl border border-slate-800">
+          <span class="text-xs text-slate-400">Total en lista:</span>
           <span id="badge-count" class="text-xs font-bold font-mono-code text-orange-400">0</span>
         </div>
-        <!-- Filtro Rápido Contactados -->
-        <select id="filtro-contacto" onchange="aplicarFiltroContacto()" class="bg-slate-950 text-slate-300 text-xs font-medium px-3 py-2 rounded-xl border border-slate-800 focus:outline-none focus:border-orange-500">
+        <select id="filtro-contacto" onchange="aplicarFiltroContacto()" class="bg-[#030712] text-slate-300 text-xs font-medium px-3 py-2 rounded-xl border border-slate-800 focus:outline-none focus:border-orange-500">
           <option value="todos">Todos los prospectos</option>
           <option value="sin_contacto">Por Contactar (Prioridad 1)</option>
-          <option value="contactados">Contactados (Historial)</option>
+          <option value="contactados">Contactados (Con Historial)</option>
         </select>
       </div>
     </div>
 
-    <!-- SECCIÓN CARTERA: GRID DE TARJETAS -->
+    <!-- SECCIÓN CARTERA: TARJETAS -->
     <div id="seccion-leads" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       <div class="col-span-full py-20 text-center text-slate-500">
         <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-3 text-orange-500"></i>
-        <p class="text-sm font-medium">Cargando leads desde Supabase...</p>
+        <p class="text-sm font-medium">Conectando a Supabase...</p>
       </div>
     </div>
 
-    <!-- SECCIÓN KPIS: TABLERO EJECUTIVO -->
-    <div id="seccion-kpis" class="hidden flex flex-col gap-6">
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
-        <div class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-950/40">
+    <!-- SECCIÓN KPIS: TABLERO GERENCIAL -->
+    <div id="seccion-kpis" class="hidden flex-col gap-6">
+      <div class="bg-[#0F172A] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+        <div class="p-5 border-b border-slate-800 flex justify-between items-center bg-[#070B14]/40">
           <div>
             <h3 class="font-bold text-base text-white flex items-center gap-2">
-              <i class="fa-solid fa-gauge-high text-orange-500"></i> Control Diario de Llamadas & Calidad (QUO)
+              <i class="fa-solid fa-gauge-high text-orange-500"></i> Control Diario de Rendimiento (QUO)
             </h3>
-            <p class="text-xs text-slate-400 mt-0.5">Métricas consolidadas de conexión y tiempo de conversación efectiva</p>
+            <p class="text-xs text-slate-400 mt-0.5">Llamadas totales, tasa de efectividad y tiempo de conversación</p>
           </div>
           <button onclick="cargarKPIs()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3.5 py-2 rounded-xl text-slate-200 transition flex items-center gap-1.5 border border-slate-700">
-            <i class="fa-solid fa-rotate"></i> Refrescar Datos
+            <i class="fa-solid fa-rotate"></i> Refrescar
           </button>
         </div>
 
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm text-slate-300">
-            <thead class="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+            <thead class="bg-[#070B14] text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
               <tr>
                 <th class="p-4">Fecha</th>
                 <th class="p-4">Asesor</th>
                 <th class="p-4 text-center">Total Llamadas</th>
                 <th class="p-4 text-center">Conexiones Exitosas</th>
                 <th class="p-4 text-center">Tasa Efectividad</th>
-                <th class="p-4 text-center">Talk Time Total</th>
-                <th class="p-4 text-center">Duración Promedio</th>
+                <th class="p-4 text-center">Talk Time</th>
+                <th class="p-4 text-center">Promedio</th>
                 <th class="p-4 text-center">Grabaciones</th>
               </tr>
             </thead>
@@ -222,16 +163,31 @@
     const SUPABASE_URL = "https://kllhgzrrsjvigztsdrju.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsbGhnenJyc2p2aWd6dHNkcmp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA0NDU5MDAsImV4cCI6MjEwNjAyMTkwMH0.0auDGf7Fm96rgrgUONmM1A_S1BbwMQcAvcfUEO43Ito";
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
     let vistaActual = 'ALL';
     let cacheLeads = [];
+
+    // Helper REST nativo sin dependencias
+    async function supabaseGet(endpoint) {
+      const resp = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+        }
+      });
+      if (!resp.ok) {
+        throw new Error(await resp.text());
+      }
+      return await resp.json();
+    }
 
     async function cambiarVista(vista) {
       vistaActual = vista;
 
-      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
-      
+      document.querySelectorAll('.nav-tab').forEach(b => {
+        b.classList.remove('bg-orange-600', 'text-white', 'shadow-md');
+        b.classList.add('text-slate-400');
+      });
+
       const tabMap = {
         'ALL': 'tab-all',
         'Wendy Falon': 'tab-wendy',
@@ -239,24 +195,35 @@
         'Cristian': 'tab-cristian',
         'KPIs': 'tab-kpis'
       };
-      if (tabMap[vista]) document.getElementById(tabMap[vista]).classList.add('active');
+      
+      const activeBtn = document.getElementById(tabMap[vista]);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400');
+        activeBtn.classList.add('bg-orange-600', 'text-white', 'shadow-md');
+      }
+
+      const toolbar = document.getElementById('toolbar-leads');
+      const leadsSec = document.getElementById('seccion-leads');
+      const kpisSec = document.getElementById('seccion-kpis');
 
       if (vista === 'KPIs') {
-        document.getElementById('toolbar-leads').classList.add('hidden');
-        document.getElementById('seccion-leads').classList.add('hidden');
-        document.getElementById('seccion-kpis').classList.remove('hidden');
+        toolbar.classList.add('hidden');
+        leadsSec.classList.add('hidden');
+        kpisSec.classList.remove('hidden');
+        kpisSec.classList.add('flex');
         cargarKPIs();
       } else {
-        document.getElementById('toolbar-leads').classList.remove('hidden');
-        document.getElementById('seccion-leads').classList.remove('hidden');
-        document.getElementById('seccion-kpis').classList.add('hidden');
+        toolbar.classList.remove('hidden');
+        leadsSec.classList.remove('hidden');
+        kpisSec.classList.add('hidden');
+        kpisSec.classList.remove('flex');
 
         const titulo = document.getElementById('vista-titulo');
         const subtitulo = document.getElementById('vista-subtitulo');
 
         if (vista === 'ALL') {
-          titulo.innerHTML = `<i class="fa-solid fa-layer-group text-orange-500"></i> Cartera General de Prospección (Equipo)`;
-          subtitulo.innerText = 'Prospectos balanceados entre Wendy, Juan Pablo y Cristian';
+          titulo.innerHTML = `<i class="fa-solid fa-layer-group text-orange-500"></i> Cartera General de Prospección`;
+          subtitulo.innerText = 'Mostrando prospectos balanceados entre Wendy, Juan Pablo y Cristian';
         } else {
           titulo.innerHTML = `<i class="fa-solid fa-user-check text-orange-500"></i> Cartera Asignada a ${vista}`;
           subtitulo.innerText = `Mostrando llamadas y prospectos prioritarios de ${vista}`;
@@ -271,27 +238,24 @@
       container.innerHTML = `
         <div class="col-span-full py-20 text-center text-slate-500">
           <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-3 text-orange-500"></i>
-          <p class="text-sm font-medium">Descargando cartera sincronizada...</p>
+          <p class="text-sm font-medium">Cargando prospectos desde la nube...</p>
         </div>`;
 
-      let query = supabase.from('v_agent_leads_portfolio').select('*');
+      try {
+        let endpoint = 'v_agent_leads_portfolio?select=*&limit=120';
+        if (vistaActual !== 'ALL') {
+          endpoint += `&assigned_agent=eq.${encodeURIComponent(vistaActual)}`;
+        }
 
-      if (vistaActual !== 'ALL') {
-        query = query.eq('assigned_agent', vistaActual);
-      }
-
-      const { data, error } = await query.limit(120);
-
-      if (error) {
+        const data = await supabaseGet(endpoint);
+        cacheLeads = data || [];
+        aplicarFiltroContacto();
+      } catch (err) {
         container.innerHTML = `
           <div class="col-span-full p-6 rounded-2xl bg-rose-950/30 border border-rose-800/50 text-rose-300 text-center text-sm">
-            <i class="fa-solid fa-triangle-exclamation mr-2"></i> Error al conectar: ${error.message}
+            <i class="fa-solid fa-triangle-exclamation mr-2"></i> Error al consultar Supabase: ${err.message}
           </div>`;
-        return;
       }
-
-      cacheLeads = data || [];
-      aplicarFiltroContacto();
     }
 
     function aplicarFiltroContacto() {
@@ -314,7 +278,7 @@
         container.innerHTML = `
           <div class="col-span-full py-16 text-center text-slate-500">
             <i class="fa-solid fa-inbox text-4xl mb-2 text-slate-700"></i>
-            <p class="text-sm">No se encontraron prospectos con este filtro.</p>
+            <p class="text-sm">No hay prospectos para este filtro.</p>
           </div>`;
         return;
       }
@@ -324,29 +288,26 @@
         const contactado = (l.total_calls_made || 0) > 0;
 
         return `
-          <div class="lead-card">
+          <div class="bg-[#0F172A] border border-slate-800 hover:border-orange-500/40 rounded-2xl p-5 shadow-lg flex flex-col justify-between transition hover:-translate-y-1">
             <div>
-              <!-- Header Tarjeta -->
               <div class="flex justify-between items-center mb-3">
-                <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${contactado ? 'badge-emerald' : 'badge-orange'}">
+                <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${contactado ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-orange-500/10 text-orange-400 border border-orange-500/30'}">
                   ${contactado ? `<i class="fa-solid fa-phone-volume mr-1"></i> ${l.total_calls_made} llamada(s)` : '<i class="fa-regular fa-clock mr-1"></i> Por Contactar'}
                 </span>
-                <span class="text-[11px] font-semibold px-2 py-0.5 rounded-md badge-agent">
+                <span class="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/20">
                   ${l.assigned_agent || 'Sin Asignar'}
                 </span>
               </div>
 
-              <!-- Razón Social y Contacto -->
               <h3 class="font-bold text-white text-base leading-snug line-clamp-1 mb-1" title="${l.company_name}">
                 ${l.company_name}
               </h3>
               <p class="text-xs text-slate-400 mb-3.5 flex items-center gap-1.5">
                 <i class="fa-regular fa-user text-slate-500"></i> 
-                ${l.contact_name || 'Contacto no disponible'}
+                ${l.contact_name || 'Sin contacto identificado'}
               </p>
 
-              <!-- DOT & MC & Ubicación -->
-              <div class="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80 text-[11px] mb-3 font-mono-code">
+              <div class="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-[#070B14] border border-slate-800/80 text-[11px] mb-3 font-mono-code">
                 <div>
                   <span class="text-slate-500 block text-[9px] uppercase">DOT</span>
                   <span class="text-slate-200 font-semibold">${l.dot_number || 'N/A'}</span>
@@ -361,22 +322,20 @@
                 </div>
               </div>
 
-              <!-- Resumen IA (Si existe llamada previa) -->
               ${l.last_quo_summary ? `
-                <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3 mb-3 text-xs">
+                <div class="bg-[#070B14] border border-slate-800 rounded-xl p-3 mb-3 text-xs">
                   <div class="flex items-center gap-1.5 text-orange-400 font-bold text-[11px] mb-1">
-                    <i class="fa-solid fa-brain text-[10px]"></i> Resumen IA de Llamada
+                    <i class="fa-solid fa-brain text-[10px]"></i> Resumen IA
                   </div>
                   <p class="text-slate-300 italic text-[11px] leading-relaxed line-clamp-3">${l.last_quo_summary}</p>
                 </div>
               ` : ''}
             </div>
 
-            <!-- Footer: Teléfono & Botón QUO -->
-            <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 mt-2">
+            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2 mt-2">
               <span class="text-xs font-mono-code text-slate-300 font-bold">${telefono || 'Sin teléfono'}</span>
               ${telefono ? `
-                <a href="tel:${telefono}" class="btn-brand-orange text-xs font-bold px-3.5 py-1.5 rounded-xl inline-flex items-center gap-1.5">
+                <a href="tel:${telefono}" class="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl inline-flex items-center gap-1.5 btn-orange-glow transition">
                   <i class="fa-solid fa-phone"></i> Llamar
                 </a>
               ` : ''}
@@ -388,34 +347,37 @@
 
     async function cargarKPIs() {
       const tbody = document.getElementById('tabla-kpis-body');
-      tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-500"><i class="fa-solid fa-circle-notch fa-spin mr-2 text-orange-500"></i> Actualizando métricas gerenciales...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-500"><i class="fa-solid fa-circle-notch fa-spin mr-2 text-orange-500"></i> Consultando rendimiento en vivo...</td></tr>`;
 
-      const { data, error } = await supabase.from('v_daily_agent_performance').select('*');
+      try {
+        const data = await supabaseGet('v_daily_agent_performance?select=*');
+        if (!data || data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-500">No hay llamadas registradas en esta fecha.</td></tr>`;
+          return;
+        }
 
-      if (error || !data) {
-        tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-rose-400">Error: ${error ? error.message : 'Sin datos'}</td></tr>`;
-        return;
+        tbody.innerHTML = data.map(r => `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="p-4 text-slate-400">${r.call_date}</td>
+            <td class="p-4 font-bold text-white font-sans">${r.agent_name}</td>
+            <td class="p-4 text-center font-bold text-slate-100">${r.total_calls}</td>
+            <td class="p-4 text-center text-emerald-400 font-semibold">${r.successful_connections}</td>
+            <td class="p-4 text-center">
+              <span class="px-2 py-0.5 rounded-md text-[11px] font-bold ${r.connection_rate_pct >= 50 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-orange-500/10 text-orange-400 border border-orange-500/20'}">
+                ${r.connection_rate_pct}%
+              </span>
+            </td>
+            <td class="p-4 text-center text-slate-200">${r.total_talk_time_minutes} min</td>
+            <td class="p-4 text-center text-slate-400">${r.avg_duration_seconds}s</td>
+            <td class="p-4 text-center text-orange-400 font-semibold">${r.calls_with_recordings || 0}</td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-rose-400">Error: ${err.message}</td></tr>`;
       }
-
-      tbody.innerHTML = data.map(r => `
-        <tr class="hover:bg-slate-800/40 transition">
-          <td class="p-4 text-slate-400">${r.call_date}</td>
-          <td class="p-4 font-bold text-white font-sans">${r.agent_name}</td>
-          <td class="p-4 text-center font-bold text-slate-100">${r.total_calls}</td>
-          <td class="p-4 text-center text-emerald-400 font-semibold">${r.successful_connections}</td>
-          <td class="p-4 text-center">
-            <span class="px-2 py-0.5 rounded-md text-[11px] font-bold ${r.connection_rate_pct >= 50 ? 'badge-emerald' : 'badge-orange'}">
-              ${r.connection_rate_pct}%
-            </span>
-          </td>
-          <td class="p-4 text-center text-slate-200">${r.total_talk_time_minutes} min</td>
-          <td class="p-4 text-center text-slate-400">${r.avg_duration_seconds}s</td>
-          <td class="p-4 text-center text-orange-400 font-semibold">${r.calls_with_recordings || 0}</td>
-        </tr>
-      `).join('');
     }
 
-    // INICIALIZACIÓN DEFAULT: EQUIPO (TODOS)
+    // ARRANQUE AUTOMÁTICO EN VISTA EQUIPO
     cambiarVista('ALL');
   </script>
 </body>
