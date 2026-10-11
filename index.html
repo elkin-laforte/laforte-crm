@@ -53,12 +53,14 @@
       align-items: center;
       flex-shrink: 0;
       z-index: 50;
+      gap: 1rem;
     }
 
     .brand-box {
       display: flex;
       align-items: center;
       gap: 0.85rem;
+      min-width: 240px;
     }
     .brand-logo-pill {
       background: #FFFFFF;
@@ -88,23 +90,39 @@
       text-transform: uppercase;
     }
 
-    /* BONUS: WALLET EN CABECERA */
+    /* WALLET CENTRADO (PROTAGONISTA) */
+    .header-center-wallet {
+      display: flex;
+      justify-content: center;
+      flex: 1;
+    }
     .agent-wallet-pill {
-      background: linear-gradient(135deg, rgba(234, 88, 12, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%);
-      border: 1px solid rgba(234, 88, 12, 0.35);
-      border-radius: 10px;
-      padding: 5px 12px;
+      background: linear-gradient(135deg, rgba(232, 93, 38, 0.16) 0%, rgba(31, 51, 45, 0.95) 100%);
+      border: 1px solid rgba(232, 93, 38, 0.4);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      border-radius: 12px;
+      padding: 6px 18px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       font-family: 'JetBrains Mono', monospace;
+      animation: pulseGlow 4s infinite alternate;
     }
-    .wallet-item { display: flex; flex-direction: column; }
-    .wallet-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; }
-    .wallet-value { font-size: 13px; font-weight: 700; color: #FFFFFF; }
-    .wallet-value.earnings { color: var(--emerald-accent); }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35); border-color: rgba(232, 93, 38, 0.35); }
+      100% { box-shadow: 0 4px 20px rgba(232, 93, 38, 0.25); border-color: rgba(232, 93, 38, 0.65); }
+    }
+    .wallet-item { display: flex; flex-direction: column; text-align: center; }
+    .wallet-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+    .wallet-value { font-size: 14px; font-weight: 700; color: #FFFFFF; }
+    .wallet-value.earnings { color: var(--emerald-accent); font-weight: 800; }
 
     /* NAVEGACIÓN SUPERIOR */
+    .header-right-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
     .nav-tabs {
       display: flex;
       background-color: #0E1614;
@@ -126,6 +144,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
+      white-space: nowrap;
     }
     .nav-tab-btn:hover { color: #FFFFFF; }
     .nav-tab-btn.active {
@@ -147,7 +166,7 @@
       overflow: hidden;
     }
 
-    /* VISTA 1: CONSOLA DE TELEVENTAS (SPLIT VIEW) */
+    /* CONSOLA DE TELEVENTAS (SPLIT VIEW) */
     .list-panel {
       flex: 1;
       display: flex;
@@ -414,7 +433,7 @@
     .btn-disp:hover { background: #1F332D; color: #FFFFFF; }
     .btn-disp.selected { background: rgba(232, 93, 38, 0.2); border-color: var(--orange-brand); color: var(--orange-light); }
 
-    /* VISTAS DE ANALYTICS / DASHBOARDS */
+    /* DASHBOARD PANELS */
     .dashboard-panel {
       flex: 1;
       overflow-y: auto;
@@ -459,7 +478,6 @@
     .chart-box-header { display: flex; justify-content: space-between; align-items: center; }
     .chart-box-header h3 { font-size: 0.95rem; font-weight: 700; color: #FFFFFF; }
 
-    /* TOGGLES TEMPORALES DoD / WoW / MoM */
     .period-toggles {
       display: flex;
       background: #0E1614;
@@ -502,6 +520,7 @@
 
   <!-- HEADER OFICIAL LAFORTE -->
   <header>
+    <!-- IZQUIERDA: LOGO -->
     <div class="brand-box">
       <div class="brand-logo-pill">LF</div>
       <div class="brand-names">
@@ -510,33 +529,45 @@
       </div>
     </div>
 
-    <!-- BONUS: WALLET EN VIVO EN CABECERA -->
-    <div id="agent-wallet-header" class="agent-wallet-pill">
-      <div class="wallet-item">
-        <span class="wallet-label"><i class="fa-solid fa-trophy mr-1 text-amber-400"></i> Pólizas</span>
-        <span class="wallet-value" id="wallet-policies">0</span>
-      </div>
-      <div style="width:1px; height:24px; background:var(--border-card);"></div>
-      <div class="wallet-item">
-        <span class="wallet-label"><i class="fa-solid fa-dollar-sign mr-1 text-emerald-400"></i> Comisión (70%)</span>
-        <span class="wallet-value earnings" id="wallet-earnings">$0</span>
-      </div>
-      <div style="width:1px; height:24px; background:var(--border-card);"></div>
-      <div class="wallet-item">
-        <span class="wallet-label">Por Transferir</span>
-        <span class="wallet-value" style="color:var(--gold-accent);" id="wallet-pending">$0</span>
+    <!-- CENTRO: WALLET DE GANANCIAS EN VIVO (VISIBILIDAD CENTRAL TOTAL) -->
+    <div class="header-center-wallet">
+      <div id="agent-wallet-header" class="agent-wallet-pill">
+        <div class="wallet-item">
+          <span class="wallet-label"><i class="fa-solid fa-trophy mr-1 text-amber-400"></i> Pólizas</span>
+          <span class="wallet-value" id="wallet-policies">0</span>
+        </div>
+        <div style="width:1px; height:24px; background:var(--border-card);"></div>
+        <div class="wallet-item">
+          <span class="wallet-label"><i class="fa-solid fa-dollar-sign mr-1 text-emerald-400"></i> Comisión (70%)</span>
+          <span class="wallet-value earnings" id="wallet-earnings">$0</span>
+        </div>
+        <div style="width:1px; height:24px; background:var(--border-card);"></div>
+        <div class="wallet-item">
+          <span class="wallet-label">Por Transferir</span>
+          <span class="wallet-value" style="color:var(--gold-accent);" id="wallet-pending">$0</span>
+        </div>
       </div>
     </div>
 
-    <!-- TABS DE NAVEGACIÓN -->
-    <div class="nav-tabs" id="nav-admin-tabs">
-      <button onclick="cambiarVista('ALL')" id="tab-all" class="nav-tab-btn active"><i class="fa-solid fa-users"></i> Equipo</button>
-      <button onclick="cambiarVista('Wendy Falon')" id="tab-wendy" class="nav-tab-btn">Wendy</button>
-      <button onclick="cambiarVista('Juan Pablo')" id="tab-juan" class="nav-tab-btn">Juan Pablo</button>
-      <button onclick="cambiarVista('Cristian')" id="tab-cristian" class="nav-tab-btn">Cristian</button>
-      <button onclick="cambiarTabDashboard('quo')" id="tab-quo" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-phone-volume"></i> Esfuerzo QUO</button>
-      <button onclick="cambiarTabDashboard('executive')" id="tab-exec" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-chart-pie"></i> Gerencial & Financiero</button>
-      <button onclick="cambiarTabDashboard('pipeline')" id="tab-pipeline" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-filter-circle-dollar"></i> Pipeline & Pérdidas</button>
+    <!-- DERECHA: TABS DE NAVEGACIÓN (DINÁMICO ADMIN VS AGENTE) -->
+    <div class="header-right-nav">
+      <!-- TABS ADMIN COMPLETO -->
+      <div class="nav-tabs" id="nav-admin-tabs">
+        <button onclick="cambiarVista('ALL')" id="tab-all" class="nav-tab-btn active"><i class="fa-solid fa-users"></i> Equipo</button>
+        <button onclick="cambiarVista('Wendy Falon')" id="tab-wendy" class="nav-tab-btn">Wendy</button>
+        <button onclick="cambiarVista('Juan Pablo')" id="tab-juan" class="nav-tab-btn">Juan Pablo</button>
+        <button onclick="cambiarVista('Cristian')" id="tab-cristian" class="nav-tab-btn">Cristian</button>
+        <button onclick="cambiarTabDashboard('quo')" id="tab-quo" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-phone-volume"></i> Esfuerzo QUO</button>
+        <button onclick="cambiarTabDashboard('executive')" id="tab-exec" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-chart-pie"></i> Gerencial & Financiero</button>
+        <button onclick="cambiarTabDashboard('pipeline')" id="tab-pipeline" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-filter-circle-dollar"></i> Pipeline & Pérdidas</button>
+      </div>
+
+      <!-- TABS ASESOR PRIVADO (SOLO SUS DATOS Y MÉTRICAS PROPIAS) -->
+      <div class="nav-tabs hidden" id="nav-agent-tabs">
+        <button onclick="cambiarVistaAgentePropio()" id="tab-agent-leads" class="nav-tab-btn active"><i class="fa-solid fa-address-book"></i> Mi Cartera</button>
+        <button onclick="cambiarTabDashboard('quo')" id="tab-agent-quo" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-chart-line"></i> Mi Esfuerzo QUO</button>
+        <button onclick="cambiarTabDashboard('pipeline')" id="tab-agent-pipeline" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-filter-circle-dollar"></i> Mi Pipeline</button>
+      </div>
     </div>
   </header>
 
@@ -763,12 +794,16 @@
       </div>
     </div>
 
-    <!-- TABLERO 1: ESFUERZO & TELEFONÍA QUO (CON MUCHAS GRÁFICAS) -->
+    <!-- TABLERO 1: ESFUERZO & TELEFONÍA QUO (PERSONAL O EQUIPO) -->
     <div id="dashboard-quo" class="dashboard-panel hidden">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
-          <h2 style="font-family:'Instrument Serif', serif; font-size:1.6rem; color:#FFFFFF;"><i class="fa-solid fa-phone-volume mr-2 text-orange-500"></i> Esfuerzo de Telefonía & Conexión (QUO)</h2>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Auditoría de actividad diaria, semanal y mensual por asesor comercial</p>
+          <h2 style="font-family:'Instrument Serif', serif; font-size:1.6rem; color:#FFFFFF;" id="quo-dash-title">
+            <i class="fa-solid fa-phone-volume mr-2 text-orange-500"></i> Esfuerzo de Telefonía & Conexión (QUO)
+          </h2>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;" id="quo-dash-subtitle">
+            Auditoría de actividad diaria, semanal y mensual por asesor comercial
+          </p>
         </div>
         <div class="period-toggles">
           <button class="period-btn active" onclick="cambiarPeriodoQuo('dod')" id="btn-dod">DoD (Día)</button>
@@ -802,8 +837,8 @@
       </div>
 
       <!-- GRÁFICAS PRO CON CHART.JS -->
-      <div class="charts-split-grid">
-        <div class="chart-box">
+      <div class="charts-split-grid" id="quo-charts-wrapper">
+        <div class="chart-box" style="grid-column: 1 / -1;" id="quo-chart-vol-wrapper">
           <div class="chart-box-header">
             <h3><i class="fa-solid fa-chart-column mr-2 text-orange-500"></i> Tendencia de Llamadas Salientes vs. Conexiones Efectivas</h3>
           </div>
@@ -811,9 +846,9 @@
             <canvas id="chartQuoVolume"></canvas>
           </div>
         </div>
-        <div class="chart-box">
+        <div class="chart-box" id="quo-chart-split-wrapper">
           <div class="chart-box-header">
-            <h3><i class="fa-solid fa-chart-pie mr-2 text-emerald-400"></i> Distribución de Esfuerzo</h3>
+            <h3><i class="fa-solid fa-chart-pie mr-2 text-emerald-400"></i> Distribución de Esfuerzo (Equipo)</h3>
           </div>
           <div style="height: 260px; position: relative;">
             <canvas id="chartQuoAgentSplit"></canvas>
@@ -821,10 +856,10 @@
         </div>
       </div>
 
-      <!-- TABLA DETALLADA POR AGENTE -->
+      <!-- TABLA DETALLADA -->
       <div class="chart-box">
         <div class="chart-box-header">
-          <h3><i class="fa-solid fa-table-list mr-2 text-orange-500"></i> Comparativa de Asesores</h3>
+          <h3><i class="fa-solid fa-table-list mr-2 text-orange-500"></i> Detalle de Métricas</h3>
         </div>
         <table class="leads-table font-mono-code">
           <thead>
@@ -843,7 +878,7 @@
       </div>
     </div>
 
-    <!-- TABLERO 2: GERENCIAL & FINANCIERO -->
+    <!-- TABLERO 2: GERENCIAL & FINANCIERO (SOLO ADMIN) -->
     <div id="dashboard-exec" class="dashboard-panel hidden">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
@@ -853,7 +888,6 @@
         <button onclick="cargarDashboardFinanciero()" style="background:#0E1614; border:1px solid var(--border-card); color:#FFFFFF; padding:6px 14px; border-radius:8px; font-size:0.75rem; cursor:pointer;"><i class="fa-solid fa-rotate mr-1"></i> Refrescar Conciliación</button>
       </div>
 
-      <!-- TOTALES FINANCIEROS -->
       <div class="dash-kpis-grid">
         <div class="dash-card">
           <div class="dash-card-title"><i class="fa-solid fa-file-shield text-sky-400"></i> Pólizas Cerradas</div>
@@ -877,7 +911,6 @@
         </div>
       </div>
 
-      <!-- TABLA DE AUDITORÍA FINANCIERA (CONTROL ADMIN) -->
       <div class="chart-box">
         <div class="chart-box-header">
           <h3><i class="fa-solid fa-clipboard-check mr-2 text-emerald-400"></i> Auditoría de Pagos & Transferencias (Exclusivo Dirección)</h3>
@@ -907,8 +940,12 @@
     <div id="dashboard-pipeline" class="dashboard-panel hidden">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
-          <h2 style="font-family:'Instrument Serif', serif; font-size:1.6rem; color:#FFFFFF;"><i class="fa-solid fa-filter-circle-dollar mr-2 text-orange-500"></i> Pipeline de Cotizaciones & Análisis de Pérdidas</h2>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Seguimiento a cotizaciones activas y auditoría de motivos de objeción / pérdida</p>
+          <h2 style="font-family:'Instrument Serif', serif; font-size:1.6rem; color:#FFFFFF;" id="pipe-dash-title">
+            <i class="fa-solid fa-filter-circle-dollar mr-2 text-orange-500"></i> Pipeline de Cotizaciones & Análisis de Pérdidas
+          </h2>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;" id="pipe-dash-subtitle">
+            Seguimiento a cotizaciones activas y auditoría de motivos de objeción
+          </p>
         </div>
         <div style="display:flex; gap:10px;">
           <select id="filtro-pipe-status" onchange="cargarPipeline()" style="background:#0E1614; border:1px solid var(--border-card); color:#FFFFFF; font-size:0.75rem; padding:6px 12px; border-radius:8px;">
@@ -951,7 +988,6 @@
     let leadSeleccionado = null;
     let disposicionSeleccionada = '';
 
-    // Manejo de roles y URL
     const params = new URLSearchParams(window.location.search);
     const agentParam = params.get('agent');
     const isAdmin = params.get('admin') === 'true' || !agentParam;
@@ -988,17 +1024,20 @@
         const agenteNombre = AGENT_MAPPING[agentParam.toLowerCase()];
         vistaActual = agenteNombre;
         document.getElementById('nav-admin-tabs').classList.add('hidden');
+        document.getElementById('nav-agent-tabs').classList.remove('hidden');
         document.getElementById('lbl-portal-type').innerText = `Consola Comercial - ${agenteNombre}`;
         cargarWalletAsesor(agenteNombre);
       } else {
         // MODO DIRECCIÓN
         vistaActual = 'ALL';
+        document.getElementById('nav-admin-tabs').classList.remove('hidden');
+        document.getElementById('nav-agent-tabs').classList.add('hidden');
         cargarWalletGeneral();
       }
       cargarLeads();
     }
 
-    // BONUS: CARGA DEL WALLET
+    // CARGA DE BILLETERA
     async function cargarWalletAsesor(agente) {
       try {
         const data = await supabaseRequest(`v_agent_wallet?agent_name=eq.${encodeURIComponent(agente)}`);
@@ -1025,7 +1064,7 @@
       } catch (e) { console.error("Error al cargar wallet general:", e); }
     }
 
-    // NAVEGACIÓN GENERAL
+    // NAVEGACIÓN
     function ocultarTodosWorkspaces() {
       document.getElementById('workspace-leads').classList.add('hidden');
       document.getElementById('inspector-panel').classList.add('hidden');
@@ -1036,11 +1075,20 @@
 
     async function cambiarVista(vista) {
       vistaActual = vista;
-      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#nav-admin-tabs .nav-tab-btn').forEach(b => b.classList.remove('active'));
 
       const map = { 'ALL':'tab-all', 'Wendy Falon':'tab-wendy', 'Juan Pablo':'tab-juan', 'Cristian':'tab-cristian' };
       if (map[vista]) document.getElementById(map[vista]).classList.add('active');
 
+      ocultarTodosWorkspaces();
+      document.getElementById('workspace-leads').classList.remove('hidden');
+      document.getElementById('inspector-panel').classList.remove('hidden');
+      cargarLeads();
+    }
+
+    function cambiarVistaAgentePropio() {
+      document.querySelectorAll('#nav-agent-tabs .nav-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-agent-leads').classList.add('active');
       ocultarTodosWorkspaces();
       document.getElementById('workspace-leads').classList.remove('hidden');
       document.getElementById('inspector-panel').classList.remove('hidden');
@@ -1052,21 +1100,24 @@
       ocultarTodosWorkspaces();
 
       if (tab === 'quo') {
-        document.getElementById('tab-quo').classList.add('active');
+        const btn = isAdmin ? document.getElementById('tab-quo') : document.getElementById('tab-agent-quo');
+        if (btn) btn.classList.add('active');
         document.getElementById('dashboard-quo').classList.remove('hidden');
         cargarDashboardQuo();
       } else if (tab === 'executive') {
+        if (!isAdmin) return;
         document.getElementById('tab-exec').classList.add('active');
         document.getElementById('dashboard-exec').classList.remove('hidden');
         cargarDashboardFinanciero();
       } else if (tab === 'pipeline') {
-        document.getElementById('tab-pipeline').classList.add('active');
+        const btn = isAdmin ? document.getElementById('tab-pipeline') : document.getElementById('tab-agent-pipeline');
+        if (btn) btn.classList.add('active');
         document.getElementById('dashboard-pipeline').classList.remove('hidden');
         cargarPipeline();
       }
     }
 
-    // LISTADO & TELEVENTAS
+    // CARTERA & LEADS
     async function cargarLeads() {
       const tbody = document.getElementById('tbody-leads');
       tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Consultando base de prospectos...</td></tr>`;
@@ -1274,11 +1325,11 @@
         await supabaseRequest('policy_sales', 'POST', payload);
         alert(`¡VENTA CERRADA! Prima: $${premium.toLocaleString()} USD | Fee: $${adminFee} USD`);
         cambiarTabInspector('tab-call');
-        initApp(); // Refrescar Wallet
+        initApp();
       } catch (e) { alert("Error: " + e.message); }
     }
 
-    // TABLERO 1: TELEFONÍA QUO (CHARTS + MÉTRICAS)
+    // TABLERO 1: TELEFONÍA QUO (CON COMPORTAMIENTO ADAPTATIVO ADMIN VS ASESOR)
     function cambiarPeriodoQuo(periodo) {
       periodoQuoActual = periodo;
       document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
@@ -1288,7 +1339,22 @@
 
     async function cargarDashboardQuo() {
       try {
-        const data = await supabaseRequest('v_quo_effort_metrics?select=*&order=call_date.desc');
+        let endpoint = 'v_quo_effort_metrics?select=*&order=call_date.desc';
+        if (!isAdmin && agentParam && AGENT_MAPPING[agentParam.toLowerCase()]) {
+          const agente = AGENT_MAPPING[agentParam.toLowerCase()];
+          endpoint += `&agent_name=eq.${encodeURIComponent(agente)}`;
+          document.getElementById('quo-dash-title').innerHTML = `<i class="fa-solid fa-phone-volume mr-2 text-orange-500"></i> Mi Esfuerzo de Telefonía (QUO)`;
+          document.getElementById('quo-dash-subtitle').innerText = `Tus llamadas, conexiones efectivas y minutos hablados`;
+          document.getElementById('quo-chart-split-wrapper').classList.add('hidden');
+          document.getElementById('quo-charts-wrapper').style.gridTemplateColumns = '1fr';
+        } else {
+          document.getElementById('quo-dash-title').innerHTML = `<i class="fa-solid fa-phone-volume mr-2 text-orange-500"></i> Esfuerzo de Telefonía & Conexión (QUO)`;
+          document.getElementById('quo-dash-subtitle').innerText = `Auditoría de actividad diaria, semanal y mensual por asesor comercial`;
+          document.getElementById('quo-chart-split-wrapper').classList.remove('hidden');
+          document.getElementById('quo-charts-wrapper').style.gridTemplateColumns = '2fr 1fr';
+        }
+
+        const data = await supabaseRequest(endpoint);
         if (!data || data.length === 0) return;
 
         let totalOutgoing = 0;
@@ -1303,13 +1369,11 @@
           totalConnects += parseInt(r.live_connects_60s) || 0;
           totalTalkTime += parseFloat(r.talk_time_min) || 0;
 
-          // Agrupación temporal según botón activo
           const key = periodoQuoActual === 'dod' ? r.call_date : periodoQuoActual === 'wow' ? `Sem ${r.call_week}` : `Mes ${r.call_month}`;
           if (!dateMap[key]) dateMap[key] = { outgoing: 0, connects: 0 };
           dateMap[key].outgoing += parseInt(r.total_outgoing) || 0;
           dateMap[key].connects += parseInt(r.live_connects_60s) || 0;
 
-          // Split por asesor
           const ag = r.agent_name || 'Sin Asignar';
           if (!agentMap[ag]) agentMap[ag] = 0;
           agentMap[ag] += parseInt(r.total_outgoing) || 0;
@@ -1321,7 +1385,7 @@
         const pct = totalOutgoing > 0 ? ((totalConnects / totalOutgoing) * 100).toFixed(1) : 0;
         document.getElementById('kpi-quo-pct').innerText = `${pct}%`;
 
-        // Render Gráfica 1 (Barras / Líneas Tendencia)
+        // Gráfica de Barras
         const labels = Object.keys(dateMap).slice(0, 10).reverse();
         const datasetOutgoing = labels.map(l => dateMap[l].outgoing);
         const datasetConnects = labels.map(l => dateMap[l].connects);
@@ -1348,26 +1412,28 @@
           }
         });
 
-        // Render Gráfica 2 (Donut Asesores)
-        if (chartQuoSplit) chartQuoSplit.destroy();
-        const ctxSplit = document.getElementById('chartQuoAgentSplit').getContext('2d');
-        chartQuoSplit = new Chart(ctxSplit, {
-          type: 'doughnut',
-          data: {
-            labels: Object.keys(agentMap),
-            datasets: [{
-              data: Object.values(agentMap),
-              backgroundColor: ['#E85D26', '#2DD4BF', '#FBBF24', '#64748B']
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom', labels: { color: '#9BB0A8' } } }
-          }
-        });
+        // Gráfica de Torta (Solo Admin)
+        if (isAdmin) {
+          if (chartQuoSplit) chartQuoSplit.destroy();
+          const ctxSplit = document.getElementById('chartQuoAgentSplit').getContext('2d');
+          chartQuoSplit = new Chart(ctxSplit, {
+            type: 'doughnut',
+            data: {
+              labels: Object.keys(agentMap),
+              datasets: [{
+                data: Object.values(agentMap),
+                backgroundColor: ['#E85D26', '#2DD4BF', '#FBBF24', '#64748B']
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { position: 'bottom', labels: { color: '#9BB0A8' } } }
+            }
+          });
+        }
 
-        // Tabla detallada
+        // Tabla
         const tbody = document.getElementById('tbody-quo-metrics');
         tbody.innerHTML = data.slice(0, 15).map(r => `
           <tr>
@@ -1384,7 +1450,7 @@
       } catch (e) { console.error("Error al cargar QUO dashboard:", e); }
     }
 
-    // TABLERO 2: GERENCIAL & FINANCIERO (CON CONCILIACIÓN ADMIN)
+    // TABLERO 2: GERENCIAL & FINANCIERO (SOLO ADMIN)
     async function cargarDashboardFinanciero() {
       try {
         const sales = await supabaseRequest('policy_sales?select=*,leads(company_name,contact_name)&order=created_at.desc');
@@ -1456,7 +1522,13 @@
           endpoint += `&status=eq.${encodeURIComponent(filtro)}`;
         }
         if (!isAdmin && agentParam && AGENT_MAPPING[agentParam.toLowerCase()]) {
-          endpoint += `&agent_name=eq.${encodeURIComponent(AGENT_MAPPING[agentParam.toLowerCase()])}`;
+          const agente = AGENT_MAPPING[agentParam.toLowerCase()];
+          endpoint += `&agent_name=eq.${encodeURIComponent(agente)}`;
+          document.getElementById('pipe-dash-title').innerHTML = `<i class="fa-solid fa-filter-circle-dollar mr-2 text-orange-500"></i> Mi Pipeline de Cotizaciones`;
+          document.getElementById('pipe-dash-subtitle').innerText = `Tus cotizaciones activas, cierres y motivos de pérdida`;
+        } else {
+          document.getElementById('pipe-dash-title').innerHTML = `<i class="fa-solid fa-filter-circle-dollar mr-2 text-orange-500"></i> Pipeline de Cotizaciones & Análisis de Pérdidas`;
+          document.getElementById('pipe-dash-subtitle').innerText = `Seguimiento a cotizaciones de todo el equipo y auditoría de objeciones`;
         }
 
         const data = await supabaseRequest(endpoint);
@@ -1510,7 +1582,6 @@
       } catch (e) { alert("Error al registrar pérdida: " + e.message); }
     }
 
-    // ARRANQUE
     initApp();
   </script>
 </body>
