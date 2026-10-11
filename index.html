@@ -441,7 +441,6 @@
       background: var(--bg-dark);
     }
 
-    /* BARRA DE SLICERS EJECUTIVA */
     .slicers-bar {
       background: var(--bg-surface);
       border: 1px solid var(--border-card);
@@ -567,7 +566,7 @@
       </div>
     </div>
 
-    <!-- CENTRO: WALLET DE GANANCIAS EN VIVO (VISIBILIDAD CENTRAL TOTAL) -->
+    <!-- CENTRO: WALLET DE GANANCIAS EN VIVO -->
     <div class="header-center-wallet">
       <div id="agent-wallet-header" class="agent-wallet-pill">
         <div class="wallet-item">
@@ -839,8 +838,8 @@
         <div class="slicers-group">
           <div class="slicer-label"><i class="fa-solid fa-calendar"></i> Año:</div>
           <select id="slicer-quo-year" class="slicer-select" onchange="cargarDashboardQuo()">
-            <option value="todos">Todos</option>
-            <option value="2026" selected>2026</option>
+            <option value="todos" selected>Todos</option>
+            <option value="2026">2026</option>
             <option value="2025">2025</option>
           </select>
 
@@ -901,9 +900,8 @@
         </div>
       </div>
 
-      <!-- RUN CHARTS (LÍNEAS DE TENDENCIA TEMPORAL) -->
+      <!-- RUN CHARTS -->
       <div class="charts-grid-2col">
-        <!-- RUN CHART 1: EVOLUCIÓN TEMPORAL -->
         <div class="chart-box">
           <div class="chart-box-header">
             <h3><i class="fa-solid fa-chart-line mr-2 text-orange-500"></i> Run Chart: Evolución de Volumen & Conexión (>60s)</h3>
@@ -913,7 +911,6 @@
           </div>
         </div>
 
-        <!-- RUN CHART 2: COMPARATIVO ENTRE ASESORES EN EL TIEMPO -->
         <div class="chart-box">
           <div class="chart-box-header">
             <h3 id="quo-chart-compare-title"><i class="fa-solid fa-chart-line mr-2 text-emerald-400"></i> Comparativa Temporal por Asesor</h3>
@@ -948,13 +945,12 @@
 
     <!-- TABLERO 2: GERENCIAL & FINANCIERO -->
     <div id="dashboard-exec" class="dashboard-panel hidden">
-      <!-- SLICERS FINANCIEROS -->
       <div class="slicers-bar">
         <div class="slicers-group">
           <div class="slicer-label"><i class="fa-solid fa-calendar"></i> Año:</div>
           <select id="slicer-fin-year" class="slicer-select" onchange="cargarDashboardFinanciero()">
-            <option value="todos">Todos</option>
-            <option value="2026" selected>2026</option>
+            <option value="todos" selected>Todos</option>
+            <option value="2026">2026</option>
             <option value="2025">2025</option>
           </select>
 
@@ -1010,7 +1006,6 @@
         </div>
       </div>
 
-      <!-- RUN CHART FINANCIERO -->
       <div class="chart-box">
         <div class="chart-box-header">
           <h3><i class="fa-solid fa-chart-line mr-2 text-emerald-400"></i> Run Chart Financiero: Primas Emitidas ($) & Admin Fees ($) en el Tiempo</h3>
@@ -1047,13 +1042,12 @@
 
     <!-- TABLERO 3: PIPELINE & GESTIÓN DE PÉRDIDAS -->
     <div id="dashboard-pipeline" class="dashboard-panel hidden">
-      <!-- SLICERS PIPELINE -->
       <div class="slicers-bar">
         <div class="slicers-group">
           <div class="slicer-label"><i class="fa-solid fa-calendar"></i> Año:</div>
           <select id="slicer-pipe-year" class="slicer-select" onchange="cargarPipeline()">
-            <option value="todos">Todos</option>
-            <option value="2026" selected>2026</option>
+            <option value="todos" selected>Todos</option>
+            <option value="2026">2026</option>
             <option value="2025">2025</option>
           </select>
 
@@ -1163,7 +1157,6 @@
         document.getElementById('nav-agent-tabs').classList.remove('hidden');
         document.getElementById('lbl-portal-type').innerText = `Consola Comercial - ${agenteNombre}`;
         
-        // Ocultar slicer de otros asesores
         document.getElementById('lbl-slicer-agent').classList.add('hidden');
         document.getElementById('slicer-quo-agent').classList.add('hidden');
         document.getElementById('lbl-slicer-pipe-agent').classList.add('hidden');
@@ -1472,7 +1465,7 @@
       } catch (e) { alert("Error: " + e.message); }
     }
 
-    // TABLERO 1: TELEFONÍA QUO (CON SLICERS & RUN CHARTS)
+    // TABLERO 1: TELEFONÍA QUO (CON FALLBACK AUTOMÁTICO A V_DAILY_AGENT_PERFORMANCE)
     function cambiarPeriodoQuo(periodo) {
       periodoQuoActual = periodo;
       document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
@@ -1482,36 +1475,38 @@
 
     async function cargarDashboardQuo() {
       try {
-        // Obtener valores de los slicers
-        const yearSlicer = document.getElementById('slicer-quo-year').value;
-        const monthSlicer = document.getElementById('slicer-quo-month').value;
-        let agentSlicer = isAdmin ? document.getElementById('slicer-quo-agent').value : AGENT_MAPPING[agentParam.toLowerCase()];
+        const yearSlicer = document.getElementById('slicer-quo-year') ? document.getElementById('slicer-quo-year').value : 'todos';
+        const monthSlicer = document.getElementById('slicer-quo-month') ? document.getElementById('slicer-quo-month').value : 'todos';
+        let agentSlicer = isAdmin ? (document.getElementById('slicer-quo-agent') ? document.getElementById('slicer-quo-agent').value : 'todos') : AGENT_MAPPING[agentParam.toLowerCase()];
 
-        let endpoint = 'v_quo_effort_metrics?select=*&order=call_date.asc';
-
-        if (!isAdmin) {
-          endpoint += `&agent_name=eq.${encodeURIComponent(agentSlicer)}`;
-          document.getElementById('quo-dash-title').innerHTML = `<i class="fa-solid fa-phone-volume mr-2 text-orange-500"></i> Mi Esfuerzo de Telefonía (QUO)`;
-          document.getElementById('quo-dash-subtitle').innerText = `Tus llamadas, conexiones efectivas y minutos hablados`;
-          document.getElementById('quo-chart-compare-title').innerHTML = `<i class="fa-solid fa-chart-line mr-2 text-emerald-400"></i> Mi Tendencia de Minutos Hablados`;
-        } else {
-          if (agentSlicer !== 'todos') {
-            endpoint += `&agent_name=eq.${encodeURIComponent(agentSlicer)}`;
-          }
-          document.getElementById('quo-dash-title').innerHTML = `<i class="fa-solid fa-phone-volume mr-2 text-orange-500"></i> Esfuerzo de Telefonía & Conexión (QUO)`;
-          document.getElementById('quo-dash-subtitle').innerText = `Auditoría ejecutiva con filtros interactivos por año, mes y asesor`;
-          document.getElementById('quo-chart-compare-title').innerHTML = `<i class="fa-solid fa-chart-line mr-2 text-emerald-400"></i> Run Chart: Comparativa por Asesor`;
+        // Intentar primero con la vista de rendimiento diario consolidada
+        let rawData = await supabaseRequest('v_daily_agent_performance?select=*&order=call_date.asc');
+        
+        // Si no responde o está vacía, intentar con la vista analítica
+        if (!rawData || rawData.length === 0) {
+          rawData = await supabaseRequest('v_quo_effort_metrics?select=*&order=call_date.asc');
         }
 
-        const rawData = await supabaseRequest(endpoint);
-        if (!rawData) return;
+        if (!rawData || rawData.length === 0) {
+          document.getElementById('tbody-quo-metrics').innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--text-dim);">No hay registros de llamadas en la base de datos.</td></tr>`;
+          return;
+        }
 
-        // Filtrado en memoria de Slicers de Fecha (Año / Mes)
-        const data = rawData.filter(r => {
-          if (!r.call_date) return false;
-          const [y, m] = r.call_date.split('-');
-          if (yearSlicer !== 'todos' && y !== yearSlicer) return false;
-          if (monthSlicer !== 'todos' && m !== monthSlicer) return false;
+        // Filtrado por Asesor si aplica
+        let data = rawData;
+        if (!isAdmin && agentSlicer) {
+          data = data.filter(r => r.agent_name === agentSlicer);
+        } else if (agentSlicer && agentSlicer !== 'todos') {
+          data = data.filter(r => r.agent_name === agentSlicer);
+        }
+
+        // Filtrado por Año y Mes si los slicers están presentes
+        data = data.filter(r => {
+          const dateVal = r.call_date || '';
+          if (!dateVal) return true;
+          const parts = dateVal.split('-');
+          if (yearSlicer !== 'todos' && parts[0] && parts[0] !== yearSlicer) return false;
+          if (monthSlicer !== 'todos' && parts[1] && parts[1] !== monthSlicer) return false;
           return true;
         });
 
@@ -1524,22 +1519,24 @@
         const allAgents = new Set();
 
         data.forEach(r => {
-          totalOutgoing += parseInt(r.total_outgoing) || 0;
-          totalConnects += parseInt(r.live_connects_60s) || 0;
-          totalTalkTime += parseFloat(r.talk_time_min) || 0;
+          const calls = parseInt(r.total_calls || r.total_outgoing) || 0;
+          const connects = parseInt(r.successful_connections || r.live_connects_60s) || 0;
+          const talk = parseFloat(r.total_talk_time_minutes || r.talk_time_min) || 0;
 
-          const key = periodoQuoActual === 'dod' ? r.call_date : periodoQuoActual === 'wow' ? `Sem ${r.call_week}` : `Mes ${r.call_month}`;
-          
-          if (!timelineMap[key]) timelineMap[key] = { outgoing: 0, connects: 0, talktime: 0 };
-          timelineMap[key].outgoing += parseInt(r.total_outgoing) || 0;
-          timelineMap[key].connects += parseInt(r.live_connects_60s) || 0;
-          timelineMap[key].talktime += parseFloat(r.talk_time_min) || 0;
+          totalOutgoing += calls;
+          totalConnects += connects;
+          totalTalkTime += talk;
+
+          const key = r.call_date || 'Hoy';
+          if (!timelineMap[key]) timelineMap[key] = { outgoing: 0, connects: 0 };
+          timelineMap[key].outgoing += calls;
+          timelineMap[key].connects += connects;
 
           const ag = r.agent_name || 'Sin Asignar';
           allAgents.add(ag);
           if (!agentTimelineMap[ag]) agentTimelineMap[ag] = {};
           if (!agentTimelineMap[ag][key]) agentTimelineMap[ag][key] = 0;
-          agentTimelineMap[ag][key] += parseInt(r.total_outgoing) || 0;
+          agentTimelineMap[ag][key] += calls;
         });
 
         document.getElementById('kpi-quo-total').innerText = totalOutgoing;
@@ -1548,7 +1545,7 @@
         const pct = totalOutgoing > 0 ? ((totalConnects / totalOutgoing) * 100).toFixed(1) : 0;
         document.getElementById('kpi-quo-pct').innerText = `${pct}%`;
 
-        // 1. RUN CHART PRINCIPAL (LINE CHART)
+        // Run Chart 1: Volumen y Conexiones
         const timeLabels = Object.keys(timelineMap);
         const dataVolOutgoing = timeLabels.map(l => timelineMap[l].outgoing);
         const dataVolConnects = timeLabels.map(l => timelineMap[l].connects);
@@ -1572,7 +1569,7 @@
                 pointBackgroundColor: '#E85D26'
               },
               {
-                label: 'Live Connects (>60s)',
+                label: 'Conexiones Efectivas',
                 data: dataVolConnects,
                 borderColor: '#2DD4BF',
                 backgroundColor: 'rgba(45, 212, 191, 0.15)',
@@ -1587,9 +1584,7 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-              legend: { labels: { color: '#9BB0A8', font: { family: 'Plus Jakarta Sans' } } }
-            },
+            plugins: { legend: { labels: { color: '#9BB0A8', font: { family: 'Plus Jakarta Sans' } } } },
             scales: {
               x: { ticks: { color: '#6B827A' }, grid: { color: '#162320' } },
               y: { ticks: { color: '#6B827A' }, grid: { color: '#1F332D' } }
@@ -1597,12 +1592,13 @@
           }
         });
 
-        // 2. RUN CHART COMPARATIVO POR ASESOR
+        // Run Chart 2: Comparativa por Asesor
         const agentColors = {
           'Wendy Falon': '#2DD4BF',
           'Juan Pablo': '#E85D26',
           'Cristian': '#FBBF24',
-          'Sin Asignar': '#6B827A'
+          'Freider Arroyave': '#38BDF8',
+          'Agente': '#94A3B8'
         };
 
         const compareDatasets = Array.from(allAgents).map((ag, i) => {
@@ -1613,7 +1609,7 @@
             borderColor: color,
             borderWidth: 2.5,
             tension: 0.35,
-            pointRadius: 3.5,
+            pointRadius: 4,
             fill: false
           };
         });
@@ -1629,9 +1625,7 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-              legend: { labels: { color: '#9BB0A8', font: { family: 'Plus Jakarta Sans' } } }
-            },
+            plugins: { legend: { labels: { color: '#9BB0A8', font: { family: 'Plus Jakarta Sans' } } } },
             scales: {
               x: { ticks: { color: '#6B827A' }, grid: { color: '#162320' } },
               y: { ticks: { color: '#6B827A' }, grid: { color: '#1F332D' } }
@@ -1639,21 +1633,24 @@
           }
         });
 
-        // TABLA
+        // Tabla de Rendimiento
         const tbody = document.getElementById('tbody-quo-metrics');
-        tbody.innerHTML = data.slice(0, 15).reverse().map(r => `
+        tbody.innerHTML = data.slice().reverse().map(r => `
           <tr>
-            <td>${r.call_date}</td>
-            <td style="font-weight:700; color:#FFFFFF;">${r.agent_name}</td>
-            <td style="text-align:center;">${r.total_outgoing}</td>
-            <td style="text-align:center; color:var(--emerald-accent); font-weight:700;">${r.live_connects_60s}</td>
-            <td style="text-align:center;">${r.total_outgoing > 0 ? Math.round((r.live_connects_60s / r.total_outgoing) * 100) : 0}%</td>
-            <td style="text-align:center;">${r.talk_time_min}</td>
-            <td style="text-align:center; color:var(--text-dim);">${r.avg_duration_sec}s</td>
+            <td>${r.call_date || 'Hoy'}</td>
+            <td style="font-weight:700; color:#FFFFFF;">${r.agent_name || 'Sin Asignar'}</td>
+            <td style="text-align:center;">${r.total_calls || r.total_outgoing || 0}</td>
+            <td style="text-align:center; color:var(--emerald-accent); font-weight:700;">${r.successful_connections || r.live_connects_60s || 0}</td>
+            <td style="text-align:center;">${r.connection_rate_pct || 0}%</td>
+            <td style="text-align:center;">${r.total_talk_time_minutes || r.talk_time_min || 0}</td>
+            <td style="text-align:center; color:var(--text-dim);">${r.avg_duration_seconds || r.avg_duration_sec || 0}s</td>
           </tr>
         `).join('');
 
-      } catch (e) { console.error("Error al cargar QUO dashboard:", e); }
+      } catch (e) {
+        console.error("Error al cargar QUO dashboard:", e);
+        document.getElementById('tbody-quo-metrics').innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem; color:#FDA4AF;">Error: ${e.message}</td></tr>`;
+      }
     }
 
     // TABLERO 2: GERENCIAL & FINANCIERO (CON RUN CHART DE VENTAS)
