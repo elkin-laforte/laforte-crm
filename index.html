@@ -7,23 +7,26 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
-      --bg-dark: #060911;
-      --bg-surface: #0B1120;
-      --bg-card: #0F172A;
-      --bg-card-hover: #162038;
-      --border-color: #1E293B;
-      --orange-brand: #EA580C;
-      --orange-light: #FB923C;
-      --orange-glow: rgba(234, 88, 12, 0.28);
-      --emerald-brand: #10B981;
-      --text-main: #F8FAFC;
-      --text-muted: #94A3B8;
-      --text-dim: #64748B;
+      --bg-dark: #121C19;
+      --bg-surface: #182622;
+      --bg-card: #1F332D;
+      --bg-card-hover: #263E37;
+      --border-card: #2C473F;
+      --border-focus: #3F6358;
+      
+      --orange-brand: #E85D26;
+      --orange-hover: #D04F1B;
+      --orange-glow: rgba(232, 93, 38, 0.32);
+      
+      --text-main: #FFFFFF;
+      --text-muted: #9BB0A8;
+      --text-dim: #6B827A;
+      --emerald-accent: #2DD4BF;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,13 +38,14 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* TOPBAR */
+    /* BARRA SUPERIOR */
     header {
       background-color: var(--bg-surface);
-      border-bottom: 1px solid var(--border-color);
-      padding: 0.65rem 1.5rem;
+      border-bottom: 1px solid var(--border-card);
+      padding: 0.75rem 1.75rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -52,124 +56,134 @@
     .brand-box {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
     }
-    .brand-logo-icon {
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(135deg, #EA580C 0%, #9A3412 100%);
+
+    /* ISOTIPO EXACTO DE LA WEB LAFORTE */
+    .brand-logo-pill {
+      background: #FFFFFF;
+      width: 38px;
+      height: 38px;
       border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px var(--orange-glow);
-      border: 1px solid rgba(234, 88, 12, 0.4);
-    }
-    .brand-logo-icon svg { width: 20px; height: 20px; }
-    .brand-title {
+      font-weight: 900;
       font-size: 1.05rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-    }
-    .brand-title span { color: var(--orange-brand); }
-    .brand-tag {
-      font-size: 8px;
-      font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 9999px;
-      background: rgba(234, 88, 12, 0.15);
-      color: var(--orange-light);
-      border: 1px solid rgba(234, 88, 12, 0.35);
-      margin-left: 6px;
+      letter-spacing: -0.05em;
+      color: #121C19;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
 
-    /* NAVEGACIÓN TABS */
+    .brand-names {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.45rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: #FFFFFF;
+      line-height: 1.1;
+    }
+    .brand-sub {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--orange-brand);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    /* PESTAÑAS NAV */
     .nav-tabs {
       display: flex;
-      background-color: #030712;
-      padding: 3px;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      gap: 3px;
+      background-color: #0E1614;
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border-card);
+      gap: 4px;
     }
     .nav-tab-btn {
       background: transparent;
       border: none;
       color: var(--text-muted);
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 600;
-      padding: 5px 12px;
-      border-radius: 7px;
+      padding: 6px 14px;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
-    .nav-tab-btn:hover { color: var(--text-main); }
+    .nav-tab-btn:hover { color: #FFFFFF; }
     .nav-tab-btn.active {
       background-color: var(--orange-brand);
       color: #FFFFFF;
-      box-shadow: 0 3px 10px var(--orange-glow);
+      box-shadow: 0 4px 12px var(--orange-glow);
     }
-    .nav-tab-btn.kpi-btn { color: var(--emerald-brand); }
+    .nav-tab-btn.kpi-btn { color: var(--emerald-accent); }
     .nav-tab-btn.kpi-btn.active {
-      background-color: var(--emerald-brand);
-      color: #030712;
+      background-color: var(--emerald-accent);
+      color: #121C19;
+      font-weight: 700;
     }
 
-    /* LAYOUT DE LA CONSOLA (SPLIT-VIEW) */
+    /* WORKSPACE SPLIT-VIEW */
     .app-workspace {
       flex: 1;
       display: flex;
       overflow: hidden;
     }
 
-    /* PANEL IZQUIERDO: LISTA / TABLA */
+    /* PANEL IZQUIERDO: LISTA CONSOLA */
     .list-panel {
       flex: 1;
       display: flex;
       flex-direction: column;
-      border-right: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-card);
       background-color: var(--bg-dark);
       min-width: 0;
     }
 
     .list-toolbar {
-      padding: 0.75rem 1.25rem;
+      padding: 0.85rem 1.25rem;
       background-color: var(--bg-surface);
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-card);
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
     }
 
-    .search-input-box {
+    .search-box {
       position: relative;
       flex: 1;
-      max-width: 400px;
+      max-width: 420px;
     }
-    .search-input-box i {
+    .search-box i {
       position: absolute;
-      left: 10px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-dim);
-      font-size: 0.8rem;
+      font-size: 0.82rem;
     }
-    .search-input-box input {
+    .search-box input {
       width: 100%;
-      background-color: #030712;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 6px 10px 6px 32px;
+      background-color: #0E1614;
+      border: 1px solid var(--border-card);
+      border-radius: 9px;
+      padding: 7px 10px 7px 34px;
       color: var(--text-main);
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       outline: none;
+      transition: border 0.2s;
     }
-    .search-input-box input:focus { border-color: var(--orange-brand); }
+    .search-box input:focus { border-color: var(--orange-brand); }
 
     .table-container {
       flex: 1;
@@ -184,33 +198,33 @@
     .leads-table thead th {
       position: sticky;
       top: 0;
-      background-color: #0A0F1D;
+      background-color: #15221F;
       color: var(--text-dim);
       font-size: 0.68rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      padding: 0.65rem 1rem;
-      border-bottom: 1px solid var(--border-color);
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-card);
       text-align: left;
       z-index: 10;
     }
     .leads-table tbody tr {
-      border-bottom: 1px solid rgba(30, 41, 59, 0.4);
+      border-bottom: 1px solid rgba(44, 71, 63, 0.4);
       cursor: pointer;
       transition: background 0.15s ease;
     }
-    .leads-table tbody tr:hover { background-color: rgba(30, 41, 59, 0.5); }
+    .leads-table tbody tr:hover { background-color: rgba(31, 51, 45, 0.6); }
     .leads-table tbody tr.active-row {
-      background-color: rgba(234, 88, 12, 0.12);
+      background-color: rgba(232, 93, 38, 0.14);
       border-left: 3px solid var(--orange-brand);
     }
     .leads-table td {
-      padding: 0.65rem 1rem;
+      padding: 0.7rem 1rem;
       white-space: nowrap;
     }
 
-    /* PANEL DERECHO: INSPECTOR DE DETALLES */
+    /* PANEL DERECHO: INSPECTOR */
     .inspector-panel {
       width: 440px;
       background-color: var(--bg-surface);
@@ -218,16 +232,25 @@
       flex-direction: column;
       flex-shrink: 0;
       overflow-y: auto;
+      border-left: 1px solid var(--border-card);
     }
 
     .inspector-header {
-      padding: 1.25rem;
-      border-bottom: 1px solid var(--border-color);
-      background-color: #0E1626;
+      padding: 1.35rem;
+      border-bottom: 1px solid var(--border-card);
+      background-color: #15231F;
+    }
+    .inspector-header h3 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: #FFFFFF;
+      line-height: 1.15;
+      margin-top: 6px;
     }
 
     .inspector-body {
-      padding: 1.25rem;
+      padding: 1.35rem;
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
@@ -238,54 +261,57 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 0.65rem;
-      background: #030712;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 0.85rem;
+      background: #0E1614;
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 0.9rem;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      font-size: 0.76rem;
     }
     .meta-grid-item span:first-child {
       color: var(--text-dim);
-      font-size: 0.65rem;
+      font-size: 0.64rem;
       text-transform: uppercase;
       display: block;
+      margin-bottom: 2px;
     }
     .meta-grid-item span:last-child {
-      color: #E2E8F0;
+      color: #E6EDE9;
       font-weight: 600;
     }
 
     .ai-summary-card {
-      background: #070B14;
-      border: 1px solid rgba(234, 88, 12, 0.35);
+      background: #0E1614;
+      border: 1px solid var(--border-card);
+      border-left: 3px solid var(--orange-brand);
       border-radius: 12px;
       padding: 1rem;
     }
     .ai-summary-card h4 {
       font-size: 0.72rem;
       font-weight: 700;
-      color: var(--orange-light);
+      color: var(--orange-brand);
       display: flex;
       align-items: center;
       gap: 6px;
       margin-bottom: 0.5rem;
       text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
     .ai-summary-card p {
-      font-size: 0.75rem;
-      line-height: 1.5;
-      color: #CBD5E1;
+      font-size: 0.76rem;
+      line-height: 1.55;
+      color: var(--text-muted);
       font-style: italic;
     }
 
     .btn-call-large {
-      background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%);
+      background-color: var(--orange-brand);
       color: #FFFFFF;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-weight: 700;
-      padding: 0.75rem;
-      border-radius: 10px;
+      padding: 0.85rem;
+      border-radius: 11px;
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -295,29 +321,30 @@
       transition: all 0.2s ease;
     }
     .btn-call-large:hover {
+      background-color: var(--orange-hover);
       transform: translateY(-1px);
-      filter: brightness(1.1);
     }
 
     /* BADGES */
     .status-pill {
       font-size: 9px;
       font-weight: 700;
-      padding: 2px 7px;
+      padding: 2.5px 8px;
       border-radius: 9999px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
     }
-    .status-pill.pending { background: rgba(234, 88, 12, 0.15); color: var(--orange-light); }
-    .status-pill.called { background: rgba(16, 185, 129, 0.15); color: #34D399; }
+    .status-pill.pending { background: rgba(232, 93, 38, 0.16); color: var(--orange-light); border: 1px solid rgba(232, 93, 38, 0.3); }
+    .status-pill.called { background: rgba(45, 212, 191, 0.14); color: var(--emerald-accent); border: 1px solid rgba(45, 212, 191, 0.3); }
+
     .agent-pill {
       font-size: 9px;
       font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: rgba(56, 189, 248, 0.12);
-      color: #38BDF8;
+      padding: 2.5px 7px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #D1DBD7;
     }
 
     .font-mono-code { font-family: 'JetBrains Mono', monospace; }
@@ -326,22 +353,19 @@
 </head>
 <body>
 
-  <!-- TOPBAR -->
+  <!-- HEADER OFICIAL LAFORTE -->
   <header>
     <div class="brand-box">
-      <div class="brand-logo-icon">
-        <svg viewBox="0 0 100 100" fill="#FFFFFF">
-          <path d="M22 18 H40 V64 H78 V82 H22 Z"/>
-          <path d="M46 18 H80 V34 H46 Z" fill-opacity="0.85"/>
-        </svg>
-      </div>
-      <div>
-        <div class="brand-title">LaForte <span>Insurance</span><span class="brand-tag">Ops Console</span></div>
+      <div class="brand-logo-pill">LF</div>
+      <div class="brand-names">
+        <span class="brand-title">LaForte Insurance</span>
+        <span class="brand-sub">Commercial Truck Insurance Hub</span>
       </div>
     </div>
 
+    <!-- TABS -->
     <div class="nav-tabs">
-      <button onclick="cambiarVista('ALL')" id="tab-all" class="nav-tab-btn active"><i class="fa-solid fa-users"></i> Equipo</button>
+      <button onclick="cambiarVista('ALL')" id="tab-all" class="nav-tab-btn active"><i class="fa-solid fa-users"></i> Todo el Equipo</button>
       <button onclick="cambiarVista('Wendy Falon')" id="tab-wendy" class="nav-tab-btn">Wendy</button>
       <button onclick="cambiarVista('Juan Pablo')" id="tab-juan" class="nav-tab-btn">Juan Pablo</button>
       <button onclick="cambiarVista('Cristian')" id="tab-cristian" class="nav-tab-btn">Cristian</button>
@@ -349,24 +373,24 @@
     </div>
   </header>
 
-  <!-- WORKSPACE -->
+  <!-- APP WORKSPACE -->
   <div class="app-workspace">
 
-    <!-- PANEL LISTADO / TABLA -->
+    <!-- PANEL LISTADO -->
     <div id="workspace-leads" class="list-panel">
       <div class="list-toolbar">
-        <div class="search-input-box">
+        <div class="search-box">
           <i class="fa-solid fa-magnifying-glass"></i>
           <input type="text" id="input-buscar" placeholder="Buscar por Razón Social, DOT, MC o Contacto..." oninput="filtrarEnVivo()">
         </div>
 
-        <div style="display:flex; align-items:center; gap:8px;">
-          <select id="filtro-estado" onchange="filtrarEnVivo()" style="background:#030712; border:1px solid var(--border-color); color:#CBD5E1; font-size:0.75rem; padding:6px 10px; border-radius:8px;">
-            <option value="todos">Todos los Estados</option>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <select id="filtro-estado" onchange="filtrarEnVivo()" style="background:#0E1614; border:1px solid var(--border-card); color:var(--text-muted); font-size:0.75rem; padding:6px 10px; border-radius:8px; outline:none;">
+            <option value="todos">Todos los prospectos</option>
             <option value="sin_contacto">Por Contactar</option>
             <option value="contactados">Contactados</option>
           </select>
-          <span style="font-size:0.72rem; color:var(--text-dim);">Registros: <strong id="lbl-count" style="color:var(--orange-light);">0</strong></span>
+          <span style="font-size:0.75rem; color:var(--text-dim);">Registros: <strong id="lbl-count" style="color:var(--orange-brand);">0</strong></span>
         </div>
       </div>
 
@@ -384,21 +408,21 @@
             </tr>
           </thead>
           <tbody id="tbody-leads">
-            <tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Cargando base de datos...</td></tr>
+            <tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Cargando base de prospectos...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- PANEL INSPECTOR (DETALLE DEL LEAD) -->
+    <!-- PANEL INSPECTOR (FICHA DE PROSPECTO) -->
     <div id="inspector-panel" class="inspector-panel">
       <div class="inspector-header">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
           <span id="insp-badge-status" class="status-pill pending">Selecciona un prospecto</span>
           <span id="insp-agent" class="agent-pill">Sin Asignar</span>
         </div>
-        <h3 id="insp-company" style="font-size:1.05rem; font-weight:800; color:#FFFFFF; line-height:1.3;">-</h3>
-        <p id="insp-contact" style="font-size:0.75rem; color:var(--text-muted); margin-top:3px;"><i class="fa-regular fa-user mr-1"></i> -</p>
+        <h3 id="insp-company">-</h3>
+        <p id="insp-contact" style="font-size:0.76rem; color:var(--text-muted); margin-top:4px;"><i class="fa-regular fa-user mr-1 text-slate-500"></i> -</p>
       </div>
 
       <div class="inspector-body">
@@ -420,27 +444,27 @@
             <span id="insp-location">-</span>
           </div>
           <div class="meta-grid-item">
-            <span>Historial QUO</span>
+            <span>Historial Telefónico</span>
             <span id="insp-calls-count">0 llamadas</span>
           </div>
         </div>
 
         <div class="ai-summary-card">
-          <h4><i class="fa-solid fa-brain"></i> Último Resumen IA (QUO)</h4>
-          <p id="insp-ai-summary">Selecciona un lead de la tabla para ver el análisis de la llamada o el estado de prospección.</p>
+          <h4><i class="fa-solid fa-wand-magic-sparkles"></i> Resumen de IA (QUO)</h4>
+          <p id="insp-ai-summary">Haz clic en cualquier prospecto de la tabla para inspeccionar su historial de llamadas y análisis de audio.</p>
         </div>
       </div>
     </div>
 
-    <!-- SECCIÓN KPIS COMPLETA -->
-    <div id="workspace-kpis" class="list-panel hidden" style="padding:1.5rem; overflow-y:auto;">
-      <div style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:14px; overflow:hidden;">
-        <div style="padding:1.25rem; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+    <!-- SECCIÓN KPIS -->
+    <div id="workspace-kpis" class="list-panel hidden" style="padding:1.5rem; overflow-y:auto; background:var(--bg-dark);">
+      <div style="background:var(--bg-surface); border:1px solid var(--border-card); border-radius:14px; overflow:hidden;">
+        <div style="padding:1.25rem; border-bottom:1px solid var(--border-card); display:flex; justify-content:space-between; align-items:center;">
           <div>
-            <h3 style="font-size:1rem; font-weight:700;"><i class="fa-solid fa-gauge-high mr-2" style="color:var(--orange-brand);"></i> Métricas Ejecutivas de Rendimiento</h3>
+            <h3 style="font-family:'Instrument Serif', serif; font-size:1.35rem; color:#FFFFFF;">Rendimiento Comercial & Telemetría QUO</h3>
             <p style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Consolidado en vivo desde quo_call_logs</p>
           </div>
-          <button onclick="cargarKPIs()" style="background:#1E293B; border:none; color:#F8FAFC; padding:6px 12px; border-radius:7px; font-size:0.75rem; cursor:pointer;"><i class="fa-solid fa-rotate mr-1"></i> Refrescar</button>
+          <button onclick="cargarKPIs()" style="background:#0E1614; border:1px solid var(--border-card); color:#FFFFFF; padding:6px 12px; border-radius:8px; font-size:0.75rem; cursor:pointer;"><i class="fa-solid fa-rotate mr-1"></i> Refrescar</button>
         </div>
         <table class="leads-table">
           <thead>
@@ -477,6 +501,7 @@
           'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
         }
       });
+      if (!resp.ok) throw new Error(await resp.text());
       return await resp.json();
     }
 
@@ -506,14 +531,15 @@
 
     async function cargarLeads() {
       const tbody = document.getElementById('tbody-leads');
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Cargando base de prospectos...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Cargando prospectos desde Supabase...</td></tr>`;
 
       try {
         let endpoint = 'v_agent_leads_portfolio?select=*&limit=150';
         if (vistaActual !== 'ALL') {
           endpoint += `&assigned_agent=eq.${encodeURIComponent(vistaActual)}`;
         }
-        cacheLeads = await supabaseGet(endpoint);
+        const data = await supabaseGet(endpoint);
+        cacheLeads = data || [];
         filtrarEnVivo();
       } catch (err) {
         tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem; color:#FDA4AF;">Error al conectar: ${err.message}</td></tr>`;
@@ -521,7 +547,7 @@
     }
 
     function filtrarEnVivo() {
-      const texto = document.getElementById('input-buscar').value.toLowerCase();
+      const texto = (document.getElementById('input-buscar').value || '').toLowerCase();
       const estadoFiltro = document.getElementById('filtro-estado').value;
 
       let filtrados = cacheLeads.filter(l => {
@@ -545,7 +571,7 @@
     function renderizarTabla(leads) {
       const tbody = document.getElementById('tbody-leads');
       if (leads.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);">No se encontraron prospectos con este filtro.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);">No hay registros para este filtro.</td></tr>`;
         return;
       }
 
@@ -564,14 +590,13 @@
             <td><span class="agent-pill">${l.assigned_agent || '-'}</span></td>
             <td style="font-weight:700; color:#FFFFFF;">${l.company_name || 'Sin Razón Social'}</td>
             <td style="color:var(--text-muted);">${l.contact_name || '-'}</td>
-            <td class="font-mono-code" style="color:#CBD5E1;">${tel}</td>
+            <td class="font-mono-code" style="color:#D1DBD7;">${tel}</td>
             <td class="font-mono-code" style="color:var(--text-dim);">${l.dot_number || '-'}${l.mc_number ? ' / ' + l.mc_number : ''}</td>
-            <td class="font-mono-code" style="color:var(--orange-light);">${l.state || 'US'}</td>
+            <td class="font-mono-code" style="color:var(--orange-brand); font-weight:600;">${l.state || 'US'}</td>
           </tr>
         `;
       }).join('');
 
-      // Auto-seleccionar primer elemento si no hay ninguno seleccionado
       if (!leadSeleccionadoId && leads.length > 0) {
         seleccionarLead(leads[0].lead_id);
       }
@@ -582,7 +607,6 @@
       const l = cacheLeads.find(x => x.lead_id === leadId);
       if (!l) return;
 
-      // Actualizar UI del inspector
       const contactado = (l.total_calls_made || 0) > 0;
       const tel = l.primary_phone || l.cell_phone || '';
 
@@ -592,7 +616,7 @@
 
       document.getElementById('insp-agent').innerText = l.assigned_agent || 'Sin Asignar';
       document.getElementById('insp-company').innerText = l.company_name || 'Sin Razón Social';
-      document.getElementById('insp-contact').innerHTML = `<i class="fa-regular fa-user mr-1"></i> ${l.contact_name || 'Contacto no registrado'}`;
+      document.getElementById('insp-contact').innerHTML = `<i class="fa-regular fa-user mr-1 text-slate-500"></i> ${l.contact_name || 'Contacto no registrado'}`;
 
       document.getElementById('insp-phone-display').innerText = tel || 'Sin número';
       const btnCall = document.getElementById('insp-btn-call');
@@ -604,9 +628,8 @@
       document.getElementById('insp-location').innerText = `${l.city ? l.city + ', ' : ''}${l.state || 'US'}`;
       document.getElementById('insp-calls-count').innerText = `${l.total_calls_made || 0} registradas`;
 
-      document.getElementById('insp-ai-summary').innerText = l.last_quo_summary || 'No se registran notas de IA para este prospecto. Al realizar la llamada por QUO se procesará la transcripción automáticamente.';
+      document.getElementById('insp-ai-summary').innerText = l.last_quo_summary || 'No se registran llamadas previas de QUO para este prospecto. La llamada que realice el asesor quedará transcrita y resumida por IA aquí automáticamente.';
 
-      // Marcar fila activa
       document.querySelectorAll('.leads-table tbody tr').forEach(tr => tr.classList.remove('active-row'));
       const rows = document.querySelectorAll('.leads-table tbody tr');
       const idx = cacheLeads.findIndex(x => x.lead_id === leadId);
@@ -615,4 +638,37 @@
 
     async function cargarKPIs() {
       const tbody = document.getElementById('tbody-kpis');
-      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Consultando métricas...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Consultando métricas...</td></tr>`;
+
+      try {
+        const data = await supabaseGet('v_daily_agent_performance?select=*');
+        if (!data || data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-dim);">No hay llamadas registradas en esta fecha.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = data.map(r => `
+          <tr>
+            <td style="color:var(--text-muted);">${r.call_date}</td>
+            <td style="font-weight:700; color:#FFFFFF; font-family:'Plus Jakarta Sans';">${r.agent_name}</td>
+            <td style="text-align:center; font-weight:700;">${r.total_calls}</td>
+            <td style="text-align:center; color:var(--emerald-accent); font-weight:600;">${r.successful_connections}</td>
+            <td style="text-align:center;">
+              <span style="padding:2px 7px; border-radius:5px; font-size:10px; font-weight:700; ${r.connection_rate_pct >= 50 ? 'background:rgba(45,212,191,0.15); color:var(--emerald-accent);' : 'background:rgba(232,93,38,0.15); color:var(--orange-light);'}">
+                ${r.connection_rate_pct}%
+              </span>
+            </td>
+            <td style="text-align:center;">${r.total_talk_time_minutes} min</td>
+            <td style="text-align:center; color:var(--text-muted);">${r.avg_duration_seconds}s</td>
+            <td style="text-align:center; color:var(--orange-light); font-weight:600;">${r.calls_with_recordings || 0}</td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:#FDA4AF;">Error: ${err.message}</td></tr>`;
+      }
+    }
+
+    cambiarVista('ALL');
+  </script>
+</body>
+</html>
