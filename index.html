@@ -58,8 +58,6 @@
       align-items: center;
       gap: 0.85rem;
     }
-
-    /* ISOTIPO EXACTO DE LA WEB LAFORTE */
     .brand-logo-pill {
       background: #FFFFFF;
       width: 38px;
@@ -74,7 +72,6 @@
       color: #121C19;
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
-
     .brand-names {
       display: flex;
       flex-direction: column;
@@ -132,14 +129,14 @@
       font-weight: 700;
     }
 
-    /* WORKSPACE SPLIT-VIEW */
+    /* WORKSPACE */
     .app-workspace {
       flex: 1;
       display: flex;
       overflow: hidden;
     }
 
-    /* PANEL IZQUIERDO: LISTA CONSOLA */
+    /* LISTA */
     .list-panel {
       flex: 1;
       display: flex;
@@ -181,7 +178,6 @@
       color: var(--text-main);
       font-size: 0.8rem;
       outline: none;
-      transition: border 0.2s;
     }
     .search-box input:focus { border-color: var(--orange-brand); }
 
@@ -224,9 +220,9 @@
       white-space: nowrap;
     }
 
-    /* PANEL DERECHO: INSPECTOR */
+    /* INSPECTOR DERECHO */
     .inspector-panel {
-      width: 440px;
+      width: 480px;
       background-color: var(--bg-surface);
       display: flex;
       flex-direction: column;
@@ -236,41 +232,66 @@
     }
 
     .inspector-header {
-      padding: 1.35rem;
+      padding: 1.25rem 1.35rem;
       border-bottom: 1px solid var(--border-card);
       background-color: #15231F;
     }
     .inspector-header h3 {
       font-family: 'Instrument Serif', serif;
-      font-size: 1.55rem;
+      font-size: 1.45rem;
       font-weight: 400;
       color: #FFFFFF;
       line-height: 1.15;
       margin-top: 6px;
     }
 
+    /* SUB TABS DEL INSPECTOR */
+    .inspector-tabs {
+      display: flex;
+      background: #0E1614;
+      border-bottom: 1px solid var(--border-card);
+      padding: 6px 12px;
+      gap: 6px;
+    }
+    .insp-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .insp-tab-btn.active {
+      background: var(--bg-card);
+      color: #FFFFFF;
+      border: 1px solid var(--border-card);
+    }
+
     .inspector-body {
-      padding: 1.35rem;
+      padding: 1.25rem;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1.15rem;
       flex: 1;
     }
 
     .meta-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 0.65rem;
+      gap: 0.6rem;
       background: #0E1614;
       border: 1px solid var(--border-card);
-      border-radius: 12px;
-      padding: 0.9rem;
+      border-radius: 10px;
+      padding: 0.8rem;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
     }
     .meta-grid-item span:first-child {
       color: var(--text-dim);
-      font-size: 0.64rem;
+      font-size: 0.62rem;
       text-transform: uppercase;
       display: block;
       margin-bottom: 2px;
@@ -284,23 +305,22 @@
       background: #0E1614;
       border: 1px solid var(--border-card);
       border-left: 3px solid var(--orange-brand);
-      border-radius: 12px;
-      padding: 1rem;
+      border-radius: 10px;
+      padding: 0.9rem;
     }
     .ai-summary-card h4 {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       color: var(--orange-brand);
       display: flex;
       align-items: center;
       gap: 6px;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
     }
     .ai-summary-card p {
-      font-size: 0.76rem;
-      line-height: 1.55;
+      font-size: 0.74rem;
+      line-height: 1.5;
       color: var(--text-muted);
       font-style: italic;
     }
@@ -308,10 +328,10 @@
     .btn-call-large {
       background-color: var(--orange-brand);
       color: #FFFFFF;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      padding: 0.85rem;
-      border-radius: 11px;
+      padding: 0.75rem;
+      border-radius: 10px;
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -323,6 +343,101 @@
     .btn-call-large:hover {
       background-color: var(--orange-hover);
       transform: translateY(-1px);
+    }
+
+    /* FORMULARIOS NATIVOS */
+    .form-box {
+      background: #0E1614;
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .form-box h4 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .form-field label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .form-field input, .form-field select, .form-field textarea {
+      background: #14201D;
+      border: 1px solid var(--border-card);
+      border-radius: 7px;
+      padding: 6px 10px;
+      color: #FFFFFF;
+      font-size: 0.76rem;
+      outline: none;
+      font-family: inherit;
+    }
+    .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+      border-color: var(--orange-brand);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
+    .btn-save-form {
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+      margin-top: 4px;
+    }
+    .btn-save-form:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    .btn-disposition-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .btn-disp {
+      background: #15221F;
+      border: 1px solid var(--border-card);
+      color: var(--text-muted);
+      border-radius: 7px;
+      padding: 6px 8px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+    .btn-disp:hover {
+      background: #1F332D;
+      color: #FFFFFF;
+      border-color: var(--border-focus);
+    }
+    .btn-disp.selected {
+      background: rgba(232, 93, 38, 0.2);
+      border-color: var(--orange-brand);
+      color: var(--orange-light);
     }
 
     /* BADGES */
@@ -359,17 +474,22 @@
       <div class="brand-logo-pill">LF</div>
       <div class="brand-names">
         <span class="brand-title">LaForte Insurance</span>
-        <span class="brand-sub">Commercial Truck Insurance Hub</span>
+        <span class="brand-sub" id="lbl-portal-type">Commercial Truck Hub</span>
       </div>
     </div>
 
-    <!-- TABS -->
-    <div class="nav-tabs">
+    <!-- TABS DE NAVEGACIÓN (SE OCULTAN EN MODO AGENTE PRIVADO) -->
+    <div class="nav-tabs" id="nav-admin-tabs">
       <button onclick="cambiarVista('ALL')" id="tab-all" class="nav-tab-btn active"><i class="fa-solid fa-users"></i> Todo el Equipo</button>
       <button onclick="cambiarVista('Wendy Falon')" id="tab-wendy" class="nav-tab-btn">Wendy</button>
       <button onclick="cambiarVista('Juan Pablo')" id="tab-juan" class="nav-tab-btn">Juan Pablo</button>
       <button onclick="cambiarVista('Cristian')" id="tab-cristian" class="nav-tab-btn">Cristian</button>
       <button onclick="cambiarVista('KPIs')" id="tab-kpis" class="nav-tab-btn kpi-btn"><i class="fa-solid fa-chart-line"></i> KPIs Gerencial</button>
+    </div>
+
+    <!-- IDENTIFICADOR DE AGENTE PRIVADO -->
+    <div id="badge-agent-locked" class="hidden" style="display:flex; align-items:center; gap:8px;">
+      <span class="status-pill called" style="font-size:10px;"><i class="fa-solid fa-user-check mr-1"></i> <span id="agent-locked-name">-</span></span>
     </div>
   </header>
 
@@ -408,13 +528,13 @@
             </tr>
           </thead>
           <tbody id="tbody-leads">
-            <tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Cargando base de prospectos...</td></tr>
+            <tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Cargando prospectos desde Supabase...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- PANEL INSPECTOR (FICHA DE PROSPECTO) -->
+    <!-- PANEL INSPECTOR MODULAR (CALL & ACTION CENTER) -->
     <div id="inspector-panel" class="inspector-panel">
       <div class="inspector-header">
         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -425,34 +545,170 @@
         <p id="insp-contact" style="font-size:0.76rem; color:var(--text-muted); margin-top:4px;"><i class="fa-regular fa-user mr-1 text-slate-500"></i> -</p>
       </div>
 
+      <!-- PESTAÑAS DE ACCIÓN DENTRO DEL INSPECTOR -->
+      <div class="inspector-tabs">
+        <button onclick="cambiarTabInspector('tab-call')" id="btn-insp-call" class="insp-tab-btn active"><i class="fa-solid fa-phone mr-1"></i> Llamada</button>
+        <button onclick="cambiarTabInspector('tab-quote')" id="btn-insp-quote" class="insp-tab-btn"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> Cotizar</button>
+        <button onclick="cambiarTabInspector('tab-sale')" id="btn-insp-sale" class="insp-tab-btn"><i class="fa-solid fa-shield-halved mr-1"></i> Cerrar Venta</button>
+      </div>
+
       <div class="inspector-body">
-        <a id="insp-btn-call" href="#" class="btn-call-large">
-          <i class="fa-solid fa-phone"></i> Llamar por QUO (<span id="insp-phone-display">-</span>)
-        </a>
+        
+        <!-- SUB-VISTA 1: LLAMADA & DISPOSICIÓN -->
+        <div id="insp-view-call" style="display:flex; flex-direction:column; gap:1rem;">
+          <a id="insp-btn-call" href="#" class="btn-call-large">
+            <i class="fa-solid fa-phone"></i> Llamar por QUO (<span id="insp-phone-display">-</span>)
+          </a>
 
-        <div class="meta-grid">
-          <div class="meta-grid-item">
-            <span>DOT Number</span>
-            <span id="insp-dot">-</span>
+          <!-- DISPOSICIÓN DE LA LLAMADA (NATIVO) -->
+          <div class="form-box">
+            <h4><i class="fa-solid fa-list-check" style="color:var(--orange-brand);"></i> Resultado de Llamada</h4>
+            <div class="btn-disposition-grid">
+              <button type="button" class="btn-disp" onclick="setDisposition('No Contesta')">No Contesta</button>
+              <button type="button" class="btn-disp" onclick="setDisposition('Buzon de Voz')">Buzón de Voz</button>
+              <button type="button" class="btn-disp" onclick="setDisposition('No Interesado')">No Interesado</button>
+              <button type="button" class="btn-disp" onclick="setDisposition('Interesado')">Interesado</button>
+              <button type="button" class="btn-disp" onclick="setDisposition('Volver a Llamar')">Volver a Llamar</button>
+              <button type="button" class="btn-disp" onclick="setDisposition('Equivocado / Fuera de Servicio')">Equivocado</button>
+            </div>
+            <div class="form-field">
+              <label>Notas de la interacción</label>
+              <input type="text" id="disp-notes" placeholder="Ej. Dueño ocupado, llamar después de las 4 PM">
+            </div>
+            <button class="btn-save-form" onclick="guardarDisposicion()"><i class="fa-solid fa-check"></i> Guardar Resultado</button>
           </div>
-          <div class="meta-grid-item">
-            <span>MC Number</span>
-            <span id="insp-mc">-</span>
+
+          <div class="meta-grid">
+            <div class="meta-grid-item">
+              <span>DOT Number</span>
+              <span id="insp-dot">-</span>
+            </div>
+            <div class="meta-grid-item">
+              <span>MC Number</span>
+              <span id="insp-mc">-</span>
+            </div>
+            <div class="meta-grid-item">
+              <span>Ubicación</span>
+              <span id="insp-location">-</span>
+            </div>
+            <div class="meta-grid-item">
+              <span>Historial QUO</span>
+              <span id="insp-calls-count">0 llamadas</span>
+            </div>
           </div>
-          <div class="meta-grid-item">
-            <span>Ubicación</span>
-            <span id="insp-location">-</span>
-          </div>
-          <div class="meta-grid-item">
-            <span>Historial Telefónico</span>
-            <span id="insp-calls-count">0 llamadas</span>
+
+          <div class="ai-summary-card">
+            <h4><i class="fa-solid fa-wand-magic-sparkles"></i> Resumen de IA (QUO)</h4>
+            <p id="insp-ai-summary">Haz clic en cualquier prospecto para revisar el análisis de audio de llamadas previas.</p>
           </div>
         </div>
 
-        <div class="ai-summary-card">
-          <h4><i class="fa-solid fa-wand-magic-sparkles"></i> Resumen de IA (QUO)</h4>
-          <p id="insp-ai-summary">Haz clic en cualquier prospecto de la tabla para inspeccionar su historial de llamadas y análisis de audio.</p>
+        <!-- SUB-VISTA 2: COTIZAR (FORMULARIO NATIVO) -->
+        <div id="insp-view-quote" class="hidden">
+          <div class="form-box">
+            <h4><i class="fa-solid fa-file-signature" style="color:var(--orange-brand);"></i> Datos para Cotización</h4>
+            
+            <div class="form-field">
+              <label>Tipo de Operación / Tráiler</label>
+              <select id="q-op-type">
+                <option value="Dry Van">Dry Van</option>
+                <option value="Reefer">Reefer (Refrigerado)</option>
+                <option value="Flatbed">Flatbed (Plataforma)</option>
+                <option value="Power Only">Power Only</option>
+                <option value="Step Deck / Hotshot">Step Deck / Hotshot</option>
+                <option value="Box Truck">Box Truck</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label>Radio de Operación</label>
+                <select id="q-radius">
+                  <option value="48 Estados (Interstate)">48 Estados</option>
+                  <option value="Regional (500 millas)">Regional (< 500 mi)</option>
+                  <option value="Local (Intrastate)">Local (Intrastate)</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Nº Unidades (Tractos)</label>
+                <input type="number" id="q-units" value="1" min="1">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label>Años en Negocio</label>
+                <input type="number" id="q-years" value="1" min="0">
+              </div>
+              <div class="form-field">
+                <label>Fecha Vencimiento Póliza</label>
+                <input type="date" id="q-renewal-date">
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label>Aseguradora Actual</label>
+              <input type="text" id="q-current-ins" placeholder="Ej. Progressive, Berkshire, etc.">
+            </div>
+
+            <div class="form-field">
+              <label>Notas de Carga y Requerimientos</label>
+              <textarea id="q-notes" rows="3" placeholder="Requerimientos de cobertura, límites, carga específica..."></textarea>
+            </div>
+
+            <button class="btn-save-form" onclick="guardarCotizacion()"><i class="fa-solid fa-floppy-disk"></i> Registrar Cotización</button>
+          </div>
         </div>
+
+        <!-- SUB-VISTA 3: CERRAR VENTA (FORMULARIO NATIVO) -->
+        <div id="insp-view-sale" class="hidden">
+          <div class="form-box">
+            <h4><i class="fa-solid fa-trophy" style="color:var(--emerald-accent);"></i> Registrar Cierre de Póliza</h4>
+            
+            <div class="form-row">
+              <div class="form-field">
+                <label>Número de Póliza</label>
+                <input type="text" id="s-policy-no" placeholder="Ej. POL-984210">
+              </div>
+              <div class="form-field">
+                <label>Compañía Aseguradora</label>
+                <input type="text" id="s-carrier" placeholder="Ej. Progressive Commercial">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label>Prima Total USD ($)</label>
+                <input type="number" id="s-premium" placeholder="Ej. 12500.00" step="0.01">
+              </div>
+              <div class="form-field">
+                <label>Down Payment USD ($)</label>
+                <input type="number" id="s-downpayment" placeholder="Ej. 1500.00" step="0.01">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label>Fecha de Inicio (Effective)</label>
+                <input type="date" id="s-effective-date">
+              </div>
+              <div class="form-field">
+                <label>Fecha Expiración</label>
+                <input type="date" id="s-expiration-date">
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label>Notas del Cierre</label>
+              <textarea id="s-notes" rows="2" placeholder="Detalles de pago, emisión de certificados..."></textarea>
+            </div>
+
+            <button class="btn-save-form" style="background:linear-gradient(135deg, #E85D26 0%, #D04F1B 100%);" onclick="guardarVenta()">
+              <i class="fa-solid fa-check-double"></i> Confirmar y Registrar Venta
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -492,17 +748,51 @@
 
     let vistaActual = 'ALL';
     let cacheLeads = [];
-    let leadSeleccionadoId = null;
+    let leadSeleccionado = null;
+    let disposicionSeleccionada = '';
 
-    async function supabaseGet(endpoint) {
-      const resp = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, {
+    // Manejo de roles y privacidad por URL
+    const params = new URLSearchParams(window.location.search);
+    const agentParam = params.get('agent');
+    const isAdmin = params.get('admin') === 'true' || !agentParam;
+
+    const AGENT_MAPPING = {
+      'wendy': 'Wendy Falon',
+      'juan': 'Juan Pablo',
+      'cristian': 'Cristian'
+    };
+
+    async function supabaseRequest(endpoint, method = 'GET', body = null) {
+      const options = {
+        method: method,
         headers: {
           'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
         }
-      });
+      };
+      if (body) options.body = JSON.stringify(body);
+      const resp = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, options);
       if (!resp.ok) throw new Error(await resp.text());
-      return await resp.json();
+      return method === 'GET' ? await resp.json() : true;
+    }
+
+    function initApp() {
+      if (!isAdmin && agentParam && AGENT_MAPPING[agentParam.toLowerCase()]) {
+        // MODO ASESOR PRIVADO
+        const agenteNombre = AGENT_MAPPING[agentParam.toLowerCase()];
+        vistaActual = agenteNombre;
+        document.getElementById('nav-admin-tabs').classList.add('hidden');
+        document.getElementById('badge-agent-locked').classList.remove('hidden');
+        document.getElementById('badge-agent-locked').style.display = 'flex';
+        document.getElementById('agent-locked-name').innerText = agenteNombre;
+        document.getElementById('lbl-portal-type').innerText = `Consola Comercial - ${agenteNombre}`;
+      } else {
+        // MODO DIRECCIÓN / ADMIN
+        vistaActual = 'ALL';
+      }
+      cargarLeads();
     }
 
     async function cambiarVista(vista) {
@@ -531,15 +821,14 @@
 
     async function cargarLeads() {
       const tbody = document.getElementById('tbody-leads');
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Cargando prospectos desde Supabase...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Consultando base de datos...</td></tr>`;
 
       try {
         let endpoint = 'v_agent_leads_portfolio?select=*&limit=150';
         if (vistaActual !== 'ALL') {
           endpoint += `&assigned_agent=eq.${encodeURIComponent(vistaActual)}`;
         }
-        const data = await supabaseGet(endpoint);
-        cacheLeads = data || [];
+        cacheLeads = await supabaseRequest(endpoint);
         filtrarEnVivo();
       } catch (err) {
         tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem; color:#FDA4AF;">Error al conectar: ${err.message}</td></tr>`;
@@ -578,7 +867,7 @@
       tbody.innerHTML = leads.map(l => {
         const contactado = (l.total_calls_made || 0) > 0;
         const tel = l.primary_phone || l.cell_phone || '-';
-        const isSelected = l.lead_id === leadSeleccionadoId ? 'active-row' : '';
+        const isSelected = leadSeleccionado && l.lead_id === leadSeleccionado.lead_id ? 'active-row' : '';
 
         return `
           <tr class="${isSelected}" onclick="seleccionarLead(${l.lead_id})">
@@ -597,15 +886,15 @@
         `;
       }).join('');
 
-      if (!leadSeleccionadoId && leads.length > 0) {
+      if (!leadSeleccionado && leads.length > 0) {
         seleccionarLead(leads[0].lead_id);
       }
     }
 
     function seleccionarLead(leadId) {
-      leadSeleccionadoId = leadId;
       const l = cacheLeads.find(x => x.lead_id === leadId);
       if (!l) return;
+      leadSeleccionado = l;
 
       const contactado = (l.total_calls_made || 0) > 0;
       const tel = l.primary_phone || l.cell_phone || '';
@@ -628,7 +917,12 @@
       document.getElementById('insp-location').innerText = `${l.city ? l.city + ', ' : ''}${l.state || 'US'}`;
       document.getElementById('insp-calls-count').innerText = `${l.total_calls_made || 0} registradas`;
 
-      document.getElementById('insp-ai-summary').innerText = l.last_quo_summary || 'No se registran llamadas previas de QUO para este prospecto. La llamada que realice el asesor quedará transcrita y resumida por IA aquí automáticamente.';
+      document.getElementById('insp-ai-summary').innerText = l.last_quo_summary || 'No se registran llamadas previas de QUO para este prospecto. Al realizar la llamada se procesará la transcripción e IA automáticamente.';
+
+      // Limpiar formularios al cambiar de prospecto
+      document.querySelectorAll('.btn-disp').forEach(b => b.classList.remove('selected'));
+      disposicionSeleccionada = '';
+      document.getElementById('disp-notes').value = '';
 
       document.querySelectorAll('.leads-table tbody tr').forEach(tr => tr.classList.remove('active-row'));
       const rows = document.querySelectorAll('.leads-table tbody tr');
@@ -636,12 +930,113 @@
       if (rows[idx]) rows[idx].classList.add('active-row');
     }
 
+    function cambiarTabInspector(tabId) {
+      document.querySelectorAll('.insp-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('insp-view-call').classList.add('hidden');
+      document.getElementById('insp-view-quote').classList.add('hidden');
+      document.getElementById('insp-view-sale').classList.add('hidden');
+
+      if (tabId === 'tab-call') {
+        document.getElementById('btn-insp-call').classList.add('active');
+        document.getElementById('insp-view-call').classList.remove('hidden');
+      } else if (tabId === 'tab-quote') {
+        document.getElementById('btn-insp-quote').classList.add('active');
+        document.getElementById('insp-view-quote').classList.remove('hidden');
+      } else if (tabId === 'tab-sale') {
+        document.getElementById('btn-insp-sale').classList.add('active');
+        document.getElementById('insp-view-sale').classList.remove('hidden');
+      }
+    }
+
+    function setDisposition(disp) {
+      disposicionSeleccionada = disp;
+      document.querySelectorAll('.btn-disp').forEach(b => {
+        b.classList.remove('selected');
+        if (b.innerText.trim() === disp || (disp === 'Equivocado / Fuera de Servicio' && b.innerText.trim() === 'Equivocado')) {
+          b.classList.add('selected');
+        }
+      });
+    }
+
+    // ACCIONES NATIVAS A SUPABASE
+    async function guardarDisposicion() {
+      if (!leadSeleccionado) return alert("Selecciona un prospecto primero.");
+      if (!disposicionSeleccionada) return alert("Por favor marca una opción de resultado.");
+
+      const payload = {
+        lead_id: leadSeleccionado.lead_id,
+        agent_name: leadSeleccionado.assigned_agent || (isAdmin ? 'Dirección' : 'Agente'),
+        disposition: disposicionSeleccionada,
+        notes: document.getElementById('disp-notes').value || null
+      };
+
+      try {
+        await supabaseRequest('call_dispositions', 'POST', payload);
+        alert(`Disposición guardada: "${disposicionSeleccionada}" para ${leadSeleccionado.company_name}`);
+        document.getElementById('disp-notes').value = '';
+        document.querySelectorAll('.btn-disp').forEach(b => b.classList.remove('selected'));
+        disposicionSeleccionada = '';
+      } catch (e) {
+        alert("Error al guardar: " + e.message);
+      }
+    }
+
+    async function guardarCotizacion() {
+      if (!leadSeleccionado) return alert("Selecciona un prospecto primero.");
+
+      const payload = {
+        lead_id: leadSeleccionado.lead_id,
+        agent_name: leadSeleccionado.assigned_agent || 'Agente',
+        operation_type: document.getElementById('q-op-type').value,
+        radius_of_operation: document.getElementById('q-radius').value,
+        number_of_units: parseInt(document.getElementById('q-units').value) || 1,
+        years_in_business: parseInt(document.getElementById('q-years').value) || 1,
+        renewal_date: document.getElementById('q-renewal-date').value || null,
+        current_insurance: document.getElementById('q-current-ins').value || null,
+        notes: document.getElementById('q-notes').value || null
+      };
+
+      try {
+        await supabaseRequest('quote_requests', 'POST', payload);
+        alert("¡Solicitud de Cotización registrada con éxito en Supabase!");
+        cambiarTabInspector('tab-call');
+      } catch (e) {
+        alert("Error al guardar cotización: " + e.message);
+      }
+    }
+
+    async function guardarVenta() {
+      if (!leadSeleccionado) return alert("Selecciona un prospecto primero.");
+      const premium = parseFloat(document.getElementById('s-premium').value);
+      if (!premium || isNaN(premium)) return alert("Ingresa un valor válido de prima.");
+
+      const payload = {
+        lead_id: leadSeleccionado.lead_id,
+        agent_name: leadSeleccionado.assigned_agent || 'Agente',
+        policy_number: document.getElementById('s-policy-no').value || 'PENDIENTE',
+        insurance_carrier: document.getElementById('s-carrier').value || 'No especificada',
+        premium_amount: premium,
+        down_payment: parseFloat(document.getElementById('s-downpayment').value) || 0,
+        effective_date: document.getElementById('s-effective-date').value || null,
+        expiration_date: document.getElementById('s-expiration-date').value || null,
+        sales_notes: document.getElementById('s-notes').value || null
+      };
+
+      try {
+        await supabaseRequest('policy_sales', 'POST', payload);
+        alert(`¡VENTA REGISTRADA EXITOSAMENTE! Prima: $${premium.toLocaleString()} USD`);
+        cambiarTabInspector('tab-call');
+      } catch (e) {
+        alert("Error al registrar venta: " + e.message);
+      }
+    }
+
     async function cargarKPIs() {
       const tbody = document.getElementById('tbody-kpis');
       tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Consultando métricas...</td></tr>`;
 
       try {
-        const data = await supabaseGet('v_daily_agent_performance?select=*');
+        const data = await supabaseRequest('v_daily_agent_performance?select=*');
         if (!data || data.length === 0) {
           tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-dim);">No hay llamadas registradas en esta fecha.</td></tr>`;
           return;
@@ -668,7 +1063,7 @@
       }
     }
 
-    cambiarVista('ALL');
+    initApp();
   </script>
 </body>
 </html>
