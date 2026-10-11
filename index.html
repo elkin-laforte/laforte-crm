@@ -29,6 +29,8 @@
       --text-dim: #6B827A;
       --emerald-accent: #2DD4BF;
       --gold-accent: #FBBF24;
+      --sky-accent: #38BDF8;
+      --purple-accent: #C084FC;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -60,7 +62,7 @@
       display: flex;
       align-items: center;
       gap: 0.85rem;
-      min-width: 240px;
+      min-width: 230px;
     }
     .brand-logo-pill {
       background: #FFFFFF;
@@ -90,7 +92,7 @@
       text-transform: uppercase;
     }
 
-    /* WALLET CENTRADO (PROTAGONISTA) */
+    /* WALLET CENTRADO */
     .header-center-wallet {
       display: flex;
       justify-content: center;
@@ -106,11 +108,6 @@
       align-items: center;
       gap: 16px;
       font-family: 'JetBrains Mono', monospace;
-      animation: pulseGlow 4s infinite alternate;
-    }
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35); border-color: rgba(232, 93, 38, 0.35); }
-      100% { box-shadow: 0 4px 20px rgba(232, 93, 38, 0.25); border-color: rgba(232, 93, 38, 0.65); }
     }
     .wallet-item { display: flex; flex-direction: column; text-align: center; }
     .wallet-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
@@ -433,16 +430,57 @@
     .btn-disp:hover { background: #1F332D; color: #FFFFFF; }
     .btn-disp.selected { background: rgba(232, 93, 38, 0.2); border-color: var(--orange-brand); color: var(--orange-light); }
 
-    /* DASHBOARD PANELS */
+    /* DASHBOARD PANELS & SLICERS */
     .dashboard-panel {
       flex: 1;
       overflow-y: auto;
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1.25rem;
       background: var(--bg-dark);
     }
+
+    /* BARRA DE SLICERS EJECUTIVA */
+    .slicers-bar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .slicers-group {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+    .slicer-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .slicer-select {
+      background: #0E1614;
+      border: 1px solid var(--border-card);
+      color: #FFFFFF;
+      font-size: 0.75rem;
+      padding: 6px 12px;
+      border-radius: 8px;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .slicer-select:focus { border-color: var(--orange-brand); }
+
     .dash-kpis-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -461,9 +499,9 @@
     .dash-card-value { font-family: 'JetBrains Mono', monospace; font-size: 1.45rem; font-weight: 700; color: #FFFFFF; }
     .dash-card-sub { font-size: 0.68rem; color: var(--text-dim); }
 
-    .charts-split-grid {
+    .charts-grid-2col {
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 1.25rem;
     }
     .chart-box {
@@ -476,7 +514,7 @@
       gap: 1rem;
     }
     .chart-box-header { display: flex; justify-content: space-between; align-items: center; }
-    .chart-box-header h3 { font-size: 0.95rem; font-weight: 700; color: #FFFFFF; }
+    .chart-box-header h3 { font-size: 0.92rem; font-weight: 700; color: #FFFFFF; }
 
     .period-toggles {
       display: flex;
@@ -549,7 +587,7 @@
       </div>
     </div>
 
-    <!-- DERECHA: TABS DE NAVEGACIÓN (DINÁMICO ADMIN VS AGENTE) -->
+    <!-- DERECHA: TABS DE NAVEGACIÓN -->
     <div class="header-right-nav">
       <!-- TABS ADMIN COMPLETO -->
       <div class="nav-tabs" id="nav-admin-tabs">
@@ -562,7 +600,7 @@
         <button onclick="cambiarTabDashboard('pipeline')" id="tab-pipeline" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-filter-circle-dollar"></i> Pipeline & Pérdidas</button>
       </div>
 
-      <!-- TABS ASESOR PRIVADO (SOLO SUS DATOS Y MÉTRICAS PROPIAS) -->
+      <!-- TABS ASESOR PRIVADO -->
       <div class="nav-tabs hidden" id="nav-agent-tabs">
         <button onclick="cambiarVistaAgentePropio()" id="tab-agent-leads" class="nav-tab-btn active"><i class="fa-solid fa-address-book"></i> Mi Cartera</button>
         <button onclick="cambiarTabDashboard('quo')" id="tab-agent-quo" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-chart-line"></i> Mi Esfuerzo QUO</button>
@@ -794,17 +832,44 @@
       </div>
     </div>
 
-    <!-- TABLERO 1: ESFUERZO & TELEFONÍA QUO (PERSONAL O EQUIPO) -->
+    <!-- TABLERO 1: ESFUERZO & TELEFONÍA QUO (CON SLICERS & RUN CHARTS) -->
     <div id="dashboard-quo" class="dashboard-panel hidden">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <h2 style="font-family:'Instrument Serif', serif; font-size:1.6rem; color:#FFFFFF;" id="quo-dash-title">
-            <i class="fa-solid fa-phone-volume mr-2 text-orange-500"></i> Esfuerzo de Telefonía & Conexión (QUO)
-          </h2>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;" id="quo-dash-subtitle">
-            Auditoría de actividad diaria, semanal y mensual por asesor comercial
-          </p>
+      <!-- SLICERS BAR -->
+      <div class="slicers-bar">
+        <div class="slicers-group">
+          <div class="slicer-label"><i class="fa-solid fa-calendar"></i> Año:</div>
+          <select id="slicer-quo-year" class="slicer-select" onchange="cargarDashboardQuo()">
+            <option value="todos">Todos</option>
+            <option value="2026" selected>2026</option>
+            <option value="2025">2025</option>
+          </select>
+
+          <div class="slicer-label"><i class="fa-solid fa-calendar-days"></i> Mes:</div>
+          <select id="slicer-quo-month" class="slicer-select" onchange="cargarDashboardQuo()">
+            <option value="todos" selected>Todos los Meses</option>
+            <option value="01">Enero</option>
+            <option value="02">Febrero</option>
+            <option value="03">Marzo</option>
+            <option value="04">Abril</option>
+            <option value="05">Mayo</option>
+            <option value="06">Junio</option>
+            <option value="07">Julio</option>
+            <option value="08">Agosto</option>
+            <option value="09">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+          </select>
+
+          <div class="slicer-label" id="lbl-slicer-agent"><i class="fa-solid fa-user-tie"></i> Asesor:</div>
+          <select id="slicer-quo-agent" class="slicer-select" onchange="cargarDashboardQuo()">
+            <option value="todos" selected>Todos los Asesores</option>
+            <option value="Wendy Falon">Wendy Falon</option>
+            <option value="Juan Pablo">Juan Pablo</option>
+            <option value="Cristian">Cristian</option>
+          </select>
         </div>
+
         <div class="period-toggles">
           <button class="period-btn active" onclick="cambiarPeriodoQuo('dod')" id="btn-dod">DoD (Día)</button>
           <button class="period-btn" onclick="cambiarPeriodoQuo('wow')" id="btn-wow">WoW (Semana)</button>
@@ -836,22 +901,25 @@
         </div>
       </div>
 
-      <!-- GRÁFICAS PRO CON CHART.JS -->
-      <div class="charts-split-grid" id="quo-charts-wrapper">
-        <div class="chart-box" style="grid-column: 1 / -1;" id="quo-chart-vol-wrapper">
+      <!-- RUN CHARTS (LÍNEAS DE TENDENCIA TEMPORAL) -->
+      <div class="charts-grid-2col">
+        <!-- RUN CHART 1: EVOLUCIÓN TEMPORAL -->
+        <div class="chart-box">
           <div class="chart-box-header">
-            <h3><i class="fa-solid fa-chart-column mr-2 text-orange-500"></i> Tendencia de Llamadas Salientes vs. Conexiones Efectivas</h3>
+            <h3><i class="fa-solid fa-chart-line mr-2 text-orange-500"></i> Run Chart: Evolución de Volumen & Conexión (>60s)</h3>
           </div>
-          <div style="height: 260px; position: relative;">
-            <canvas id="chartQuoVolume"></canvas>
+          <div style="height: 270px; position: relative;">
+            <canvas id="chartQuoRunChart"></canvas>
           </div>
         </div>
-        <div class="chart-box" id="quo-chart-split-wrapper">
+
+        <!-- RUN CHART 2: COMPARATIVO ENTRE ASESORES EN EL TIEMPO -->
+        <div class="chart-box">
           <div class="chart-box-header">
-            <h3><i class="fa-solid fa-chart-pie mr-2 text-emerald-400"></i> Distribución de Esfuerzo (Equipo)</h3>
+            <h3 id="quo-chart-compare-title"><i class="fa-solid fa-chart-line mr-2 text-emerald-400"></i> Comparativa Temporal por Asesor</h3>
           </div>
-          <div style="height: 260px; position: relative;">
-            <canvas id="chartQuoAgentSplit"></canvas>
+          <div style="height: 270px; position: relative;">
+            <canvas id="chartQuoAgentCompare"></canvas>
           </div>
         </div>
       </div>
@@ -859,7 +927,7 @@
       <!-- TABLA DETALLADA -->
       <div class="chart-box">
         <div class="chart-box-header">
-          <h3><i class="fa-solid fa-table-list mr-2 text-orange-500"></i> Detalle de Métricas</h3>
+          <h3><i class="fa-solid fa-table-list mr-2 text-orange-500"></i> Matriz de Rendimiento Detallado</h3>
         </div>
         <table class="leads-table font-mono-code">
           <thead>
@@ -878,13 +946,44 @@
       </div>
     </div>
 
-    <!-- TABLERO 2: GERENCIAL & FINANCIERO (SOLO ADMIN) -->
+    <!-- TABLERO 2: GERENCIAL & FINANCIERO -->
     <div id="dashboard-exec" class="dashboard-panel hidden">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <h2 style="font-family:'Instrument Serif', serif; font-size:1.6rem; color:#FFFFFF;"><i class="fa-solid fa-sack-dollar mr-2 text-emerald-400"></i> Dashboard Gerencial & Conciliación Financiera</h2>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Control de primas emitidas, Admin Fees, split de comisiones y auditoría de pagos</p>
+      <!-- SLICERS FINANCIEROS -->
+      <div class="slicers-bar">
+        <div class="slicers-group">
+          <div class="slicer-label"><i class="fa-solid fa-calendar"></i> Año:</div>
+          <select id="slicer-fin-year" class="slicer-select" onchange="cargarDashboardFinanciero()">
+            <option value="todos">Todos</option>
+            <option value="2026" selected>2026</option>
+            <option value="2025">2025</option>
+          </select>
+
+          <div class="slicer-label"><i class="fa-solid fa-calendar-days"></i> Mes:</div>
+          <select id="slicer-fin-month" class="slicer-select" onchange="cargarDashboardFinanciero()">
+            <option value="todos" selected>Todos los Meses</option>
+            <option value="01">Enero</option>
+            <option value="02">Febrero</option>
+            <option value="03">Marzo</option>
+            <option value="04">Abril</option>
+            <option value="05">Mayo</option>
+            <option value="06">Junio</option>
+            <option value="07">Julio</option>
+            <option value="08">Agosto</option>
+            <option value="09">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+          </select>
+
+          <div class="slicer-label"><i class="fa-solid fa-user-tie"></i> Asesor:</div>
+          <select id="slicer-fin-agent" class="slicer-select" onchange="cargarDashboardFinanciero()">
+            <option value="todos" selected>Todos los Asesores</option>
+            <option value="Wendy Falon">Wendy Falon</option>
+            <option value="Juan Pablo">Juan Pablo</option>
+            <option value="Cristian">Cristian</option>
+          </select>
         </div>
+
         <button onclick="cargarDashboardFinanciero()" style="background:#0E1614; border:1px solid var(--border-card); color:#FFFFFF; padding:6px 14px; border-radius:8px; font-size:0.75rem; cursor:pointer;"><i class="fa-solid fa-rotate mr-1"></i> Refrescar Conciliación</button>
       </div>
 
@@ -908,6 +1007,16 @@
           <div class="dash-card-title"><i class="fa-solid fa-scale-balanced text-amber-400"></i> Comisiones Asesores (70%)</div>
           <div class="dash-card-value" style="color:var(--gold-accent);" id="kpi-fin-commissions">$0</div>
           <div class="dash-card-sub">Split comercial devengado</div>
+        </div>
+      </div>
+
+      <!-- RUN CHART FINANCIERO -->
+      <div class="chart-box">
+        <div class="chart-box-header">
+          <h3><i class="fa-solid fa-chart-line mr-2 text-emerald-400"></i> Run Chart Financiero: Primas Emitidas ($) & Admin Fees ($) en el Tiempo</h3>
+        </div>
+        <div style="height: 250px; position: relative;">
+          <canvas id="chartFinancialRunChart"></canvas>
         </div>
       </div>
 
@@ -938,17 +1047,43 @@
 
     <!-- TABLERO 3: PIPELINE & GESTIÓN DE PÉRDIDAS -->
     <div id="dashboard-pipeline" class="dashboard-panel hidden">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <h2 style="font-family:'Instrument Serif', serif; font-size:1.6rem; color:#FFFFFF;" id="pipe-dash-title">
-            <i class="fa-solid fa-filter-circle-dollar mr-2 text-orange-500"></i> Pipeline de Cotizaciones & Análisis de Pérdidas
-          </h2>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;" id="pipe-dash-subtitle">
-            Seguimiento a cotizaciones activas y auditoría de motivos de objeción
-          </p>
-        </div>
-        <div style="display:flex; gap:10px;">
-          <select id="filtro-pipe-status" onchange="cargarPipeline()" style="background:#0E1614; border:1px solid var(--border-card); color:#FFFFFF; font-size:0.75rem; padding:6px 12px; border-radius:8px;">
+      <!-- SLICERS PIPELINE -->
+      <div class="slicers-bar">
+        <div class="slicers-group">
+          <div class="slicer-label"><i class="fa-solid fa-calendar"></i> Año:</div>
+          <select id="slicer-pipe-year" class="slicer-select" onchange="cargarPipeline()">
+            <option value="todos">Todos</option>
+            <option value="2026" selected>2026</option>
+            <option value="2025">2025</option>
+          </select>
+
+          <div class="slicer-label"><i class="fa-solid fa-calendar-days"></i> Mes:</div>
+          <select id="slicer-pipe-month" class="slicer-select" onchange="cargarPipeline()">
+            <option value="todos" selected>Todos los Meses</option>
+            <option value="01">Enero</option>
+            <option value="02">Febrero</option>
+            <option value="03">Marzo</option>
+            <option value="04">Abril</option>
+            <option value="05">Mayo</option>
+            <option value="06">Junio</option>
+            <option value="07">Julio</option>
+            <option value="08">Agosto</option>
+            <option value="09">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+          </select>
+
+          <div class="slicer-label" id="lbl-slicer-pipe-agent"><i class="fa-solid fa-user-tie"></i> Asesor:</div>
+          <select id="slicer-pipe-agent" class="slicer-select" onchange="cargarPipeline()">
+            <option value="todos" selected>Todos los Asesores</option>
+            <option value="Wendy Falon">Wendy Falon</option>
+            <option value="Juan Pablo">Juan Pablo</option>
+            <option value="Cristian">Cristian</option>
+          </select>
+
+          <div class="slicer-label"><i class="fa-solid fa-filter"></i> Estado:</div>
+          <select id="filtro-pipe-status" onchange="cargarPipeline()" class="slicer-select">
             <option value="todos">Todos los Estados</option>
             <option value="En Seguimiento" selected>En Seguimiento (Activas)</option>
             <option value="Perdida">Perdidas (Objeciones)</option>
@@ -998,8 +1133,9 @@
       'cristian': 'Cristian'
     };
 
-    let chartQuoVol = null;
-    let chartQuoSplit = null;
+    let chartQuoRun = null;
+    let chartQuoCompare = null;
+    let chartFinRun = null;
     let periodoQuoActual = 'dod';
 
     async function supabaseRequest(endpoint, method = 'GET', body = null) {
@@ -1026,6 +1162,13 @@
         document.getElementById('nav-admin-tabs').classList.add('hidden');
         document.getElementById('nav-agent-tabs').classList.remove('hidden');
         document.getElementById('lbl-portal-type').innerText = `Consola Comercial - ${agenteNombre}`;
+        
+        // Ocultar slicer de otros asesores
+        document.getElementById('lbl-slicer-agent').classList.add('hidden');
+        document.getElementById('slicer-quo-agent').classList.add('hidden');
+        document.getElementById('lbl-slicer-pipe-agent').classList.add('hidden');
+        document.getElementById('slicer-pipe-agent').classList.add('hidden');
+
         cargarWalletAsesor(agenteNombre);
       } else {
         // MODO DIRECCIÓN
@@ -1329,7 +1472,7 @@
       } catch (e) { alert("Error: " + e.message); }
     }
 
-    // TABLERO 1: TELEFONÍA QUO (CON COMPORTAMIENTO ADAPTATIVO ADMIN VS ASESOR)
+    // TABLERO 1: TELEFONÍA QUO (CON SLICERS & RUN CHARTS)
     function cambiarPeriodoQuo(periodo) {
       periodoQuoActual = periodo;
       document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
@@ -1339,30 +1482,46 @@
 
     async function cargarDashboardQuo() {
       try {
-        let endpoint = 'v_quo_effort_metrics?select=*&order=call_date.desc';
-        if (!isAdmin && agentParam && AGENT_MAPPING[agentParam.toLowerCase()]) {
-          const agente = AGENT_MAPPING[agentParam.toLowerCase()];
-          endpoint += `&agent_name=eq.${encodeURIComponent(agente)}`;
+        // Obtener valores de los slicers
+        const yearSlicer = document.getElementById('slicer-quo-year').value;
+        const monthSlicer = document.getElementById('slicer-quo-month').value;
+        let agentSlicer = isAdmin ? document.getElementById('slicer-quo-agent').value : AGENT_MAPPING[agentParam.toLowerCase()];
+
+        let endpoint = 'v_quo_effort_metrics?select=*&order=call_date.asc';
+
+        if (!isAdmin) {
+          endpoint += `&agent_name=eq.${encodeURIComponent(agentSlicer)}`;
           document.getElementById('quo-dash-title').innerHTML = `<i class="fa-solid fa-phone-volume mr-2 text-orange-500"></i> Mi Esfuerzo de Telefonía (QUO)`;
           document.getElementById('quo-dash-subtitle').innerText = `Tus llamadas, conexiones efectivas y minutos hablados`;
-          document.getElementById('quo-chart-split-wrapper').classList.add('hidden');
-          document.getElementById('quo-charts-wrapper').style.gridTemplateColumns = '1fr';
+          document.getElementById('quo-chart-compare-title').innerHTML = `<i class="fa-solid fa-chart-line mr-2 text-emerald-400"></i> Mi Tendencia de Minutos Hablados`;
         } else {
+          if (agentSlicer !== 'todos') {
+            endpoint += `&agent_name=eq.${encodeURIComponent(agentSlicer)}`;
+          }
           document.getElementById('quo-dash-title').innerHTML = `<i class="fa-solid fa-phone-volume mr-2 text-orange-500"></i> Esfuerzo de Telefonía & Conexión (QUO)`;
-          document.getElementById('quo-dash-subtitle').innerText = `Auditoría de actividad diaria, semanal y mensual por asesor comercial`;
-          document.getElementById('quo-chart-split-wrapper').classList.remove('hidden');
-          document.getElementById('quo-charts-wrapper').style.gridTemplateColumns = '2fr 1fr';
+          document.getElementById('quo-dash-subtitle').innerText = `Auditoría ejecutiva con filtros interactivos por año, mes y asesor`;
+          document.getElementById('quo-chart-compare-title').innerHTML = `<i class="fa-solid fa-chart-line mr-2 text-emerald-400"></i> Run Chart: Comparativa por Asesor`;
         }
 
-        const data = await supabaseRequest(endpoint);
-        if (!data || data.length === 0) return;
+        const rawData = await supabaseRequest(endpoint);
+        if (!rawData) return;
+
+        // Filtrado en memoria de Slicers de Fecha (Año / Mes)
+        const data = rawData.filter(r => {
+          if (!r.call_date) return false;
+          const [y, m] = r.call_date.split('-');
+          if (yearSlicer !== 'todos' && y !== yearSlicer) return false;
+          if (monthSlicer !== 'todos' && m !== monthSlicer) return false;
+          return true;
+        });
 
         let totalOutgoing = 0;
         let totalConnects = 0;
         let totalTalkTime = 0;
 
-        const dateMap = {};
-        const agentMap = {};
+        const timelineMap = {};
+        const agentTimelineMap = {};
+        const allAgents = new Set();
 
         data.forEach(r => {
           totalOutgoing += parseInt(r.total_outgoing) || 0;
@@ -1370,13 +1529,17 @@
           totalTalkTime += parseFloat(r.talk_time_min) || 0;
 
           const key = periodoQuoActual === 'dod' ? r.call_date : periodoQuoActual === 'wow' ? `Sem ${r.call_week}` : `Mes ${r.call_month}`;
-          if (!dateMap[key]) dateMap[key] = { outgoing: 0, connects: 0 };
-          dateMap[key].outgoing += parseInt(r.total_outgoing) || 0;
-          dateMap[key].connects += parseInt(r.live_connects_60s) || 0;
+          
+          if (!timelineMap[key]) timelineMap[key] = { outgoing: 0, connects: 0, talktime: 0 };
+          timelineMap[key].outgoing += parseInt(r.total_outgoing) || 0;
+          timelineMap[key].connects += parseInt(r.live_connects_60s) || 0;
+          timelineMap[key].talktime += parseFloat(r.talk_time_min) || 0;
 
           const ag = r.agent_name || 'Sin Asignar';
-          if (!agentMap[ag]) agentMap[ag] = 0;
-          agentMap[ag] += parseInt(r.total_outgoing) || 0;
+          allAgents.add(ag);
+          if (!agentTimelineMap[ag]) agentTimelineMap[ag] = {};
+          if (!agentTimelineMap[ag][key]) agentTimelineMap[ag][key] = 0;
+          agentTimelineMap[ag][key] += parseInt(r.total_outgoing) || 0;
         });
 
         document.getElementById('kpi-quo-total').innerText = totalOutgoing;
@@ -1385,57 +1548,100 @@
         const pct = totalOutgoing > 0 ? ((totalConnects / totalOutgoing) * 100).toFixed(1) : 0;
         document.getElementById('kpi-quo-pct').innerText = `${pct}%`;
 
-        // Gráfica de Barras
-        const labels = Object.keys(dateMap).slice(0, 10).reverse();
-        const datasetOutgoing = labels.map(l => dateMap[l].outgoing);
-        const datasetConnects = labels.map(l => dateMap[l].connects);
+        // 1. RUN CHART PRINCIPAL (LINE CHART)
+        const timeLabels = Object.keys(timelineMap);
+        const dataVolOutgoing = timeLabels.map(l => timelineMap[l].outgoing);
+        const dataVolConnects = timeLabels.map(l => timelineMap[l].connects);
 
-        if (chartQuoVol) chartQuoVol.destroy();
-        const ctxVol = document.getElementById('chartQuoVolume').getContext('2d');
-        chartQuoVol = new Chart(ctxVol, {
-          type: 'bar',
+        if (chartQuoRun) chartQuoRun.destroy();
+        const ctxRun = document.getElementById('chartQuoRunChart').getContext('2d');
+        chartQuoRun = new Chart(ctxRun, {
+          type: 'line',
           data: {
-            labels: labels,
+            labels: timeLabels,
             datasets: [
-              { label: 'Llamadas Salientes', data: datasetOutgoing, backgroundColor: '#E85D26', borderRadius: 4 },
-              { label: 'Live Connects (>60s)', data: datasetConnects, backgroundColor: '#2DD4BF', borderRadius: 4 }
+              {
+                label: 'Llamadas Salientes',
+                data: dataVolOutgoing,
+                borderColor: '#E85D26',
+                backgroundColor: 'rgba(232, 93, 38, 0.15)',
+                borderWidth: 3,
+                tension: 0.35,
+                fill: true,
+                pointRadius: 4,
+                pointBackgroundColor: '#E85D26'
+              },
+              {
+                label: 'Live Connects (>60s)',
+                data: dataVolConnects,
+                borderColor: '#2DD4BF',
+                backgroundColor: 'rgba(45, 212, 191, 0.15)',
+                borderWidth: 2.5,
+                tension: 0.35,
+                fill: true,
+                pointRadius: 4,
+                pointBackgroundColor: '#2DD4BF'
+              }
             ]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: '#9BB0A8', font: { family: 'Plus Jakarta Sans' } } } },
+            plugins: {
+              legend: { labels: { color: '#9BB0A8', font: { family: 'Plus Jakarta Sans' } } }
+            },
             scales: {
-              x: { ticks: { color: '#6B827A' }, grid: { display: false } },
+              x: { ticks: { color: '#6B827A' }, grid: { color: '#162320' } },
               y: { ticks: { color: '#6B827A' }, grid: { color: '#1F332D' } }
             }
           }
         });
 
-        // Gráfica de Torta (Solo Admin)
-        if (isAdmin) {
-          if (chartQuoSplit) chartQuoSplit.destroy();
-          const ctxSplit = document.getElementById('chartQuoAgentSplit').getContext('2d');
-          chartQuoSplit = new Chart(ctxSplit, {
-            type: 'doughnut',
-            data: {
-              labels: Object.keys(agentMap),
-              datasets: [{
-                data: Object.values(agentMap),
-                backgroundColor: ['#E85D26', '#2DD4BF', '#FBBF24', '#64748B']
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: { legend: { position: 'bottom', labels: { color: '#9BB0A8' } } }
-            }
-          });
-        }
+        // 2. RUN CHART COMPARATIVO POR ASESOR
+        const agentColors = {
+          'Wendy Falon': '#2DD4BF',
+          'Juan Pablo': '#E85D26',
+          'Cristian': '#FBBF24',
+          'Sin Asignar': '#6B827A'
+        };
 
-        // Tabla
+        const compareDatasets = Array.from(allAgents).map((ag, i) => {
+          const color = agentColors[ag] || ['#38BDF8', '#C084FC', '#F43F5E'][i % 3];
+          return {
+            label: ag,
+            data: timeLabels.map(l => agentTimelineMap[ag][l] || 0),
+            borderColor: color,
+            borderWidth: 2.5,
+            tension: 0.35,
+            pointRadius: 3.5,
+            fill: false
+          };
+        });
+
+        if (chartQuoCompare) chartQuoCompare.destroy();
+        const ctxCompare = document.getElementById('chartQuoAgentCompare').getContext('2d');
+        chartQuoCompare = new Chart(ctxCompare, {
+          type: 'line',
+          data: {
+            labels: timeLabels,
+            datasets: compareDatasets
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#9BB0A8', font: { family: 'Plus Jakarta Sans' } } }
+            },
+            scales: {
+              x: { ticks: { color: '#6B827A' }, grid: { color: '#162320' } },
+              y: { ticks: { color: '#6B827A' }, grid: { color: '#1F332D' } }
+            }
+          }
+        });
+
+        // TABLA
         const tbody = document.getElementById('tbody-quo-metrics');
-        tbody.innerHTML = data.slice(0, 15).map(r => `
+        tbody.innerHTML = data.slice(0, 15).reverse().map(r => `
           <tr>
             <td>${r.call_date}</td>
             <td style="font-weight:700; color:#FFFFFF;">${r.agent_name}</td>
@@ -1450,20 +1656,46 @@
       } catch (e) { console.error("Error al cargar QUO dashboard:", e); }
     }
 
-    // TABLERO 2: GERENCIAL & FINANCIERO (SOLO ADMIN)
+    // TABLERO 2: GERENCIAL & FINANCIERO (CON RUN CHART DE VENTAS)
     async function cargarDashboardFinanciero() {
       try {
-        const sales = await supabaseRequest('policy_sales?select=*,leads(company_name,contact_name)&order=created_at.desc');
-        if (!sales) return;
+        const yearSlicer = document.getElementById('slicer-fin-year').value;
+        const monthSlicer = document.getElementById('slicer-fin-month').value;
+        const agentSlicer = document.getElementById('slicer-fin-agent').value;
+
+        let endpoint = 'policy_sales?select=*,leads(company_name,contact_name)&order=created_at.asc';
+        if (agentSlicer !== 'todos') {
+          endpoint += `&agent_name=eq.${encodeURIComponent(agentSlicer)}`;
+        }
+
+        const rawSales = await supabaseRequest(endpoint);
+        if (!rawSales) return;
+
+        const sales = rawSales.filter(s => {
+          if (!s.created_at) return false;
+          const d = s.created_at.split('T')[0];
+          const [y, m] = d.split('-');
+          if (yearSlicer !== 'todos' && y !== yearSlicer) return false;
+          if (monthSlicer !== 'todos' && m !== monthSlicer) return false;
+          return true;
+        });
 
         let totalPremium = 0;
         let totalFees = 0;
         let totalComm = 0;
+        const timelineFin = {};
 
         sales.forEach(s => {
-          totalPremium += parseFloat(s.premium_amount) || 0;
-          totalFees += parseFloat(s.admin_fee_amount) || 0;
+          const prem = parseFloat(s.premium_amount) || 0;
+          const fee = parseFloat(s.admin_fee_amount) || 0;
+          totalPremium += prem;
+          totalFees += fee;
           totalComm += parseFloat(s.agent_commission_amount) || 0;
+
+          const dateKey = s.created_at.split('T')[0];
+          if (!timelineFin[dateKey]) timelineFin[dateKey] = { premium: 0, fee: 0 };
+          timelineFin[dateKey].premium += prem;
+          timelineFin[dateKey].fee += fee;
         });
 
         document.getElementById('kpi-fin-policies').innerText = sales.length;
@@ -1471,8 +1703,49 @@
         document.getElementById('kpi-fin-fees').innerText = `$${totalFees.toLocaleString()} USD`;
         document.getElementById('kpi-fin-commissions').innerText = `$${totalComm.toLocaleString()} USD`;
 
+        // RUN CHART FINANCIERO (LÍNEAS)
+        const finLabels = Object.keys(timelineFin);
+        if (chartFinRun) chartFinRun.destroy();
+        const ctxFin = document.getElementById('chartFinancialRunChart').getContext('2d');
+        chartFinRun = new Chart(ctxFin, {
+          type: 'line',
+          data: {
+            labels: finLabels,
+            datasets: [
+              {
+                label: 'Prima Total Emitida ($)',
+                data: finLabels.map(l => timelineFin[l].premium),
+                borderColor: '#2DD4BF',
+                backgroundColor: 'rgba(45, 212, 191, 0.15)',
+                borderWidth: 3,
+                tension: 0.35,
+                yAxisID: 'y'
+              },
+              {
+                label: 'Admin Fee Cobrado ($)',
+                data: finLabels.map(l => timelineFin[l].fee),
+                borderColor: '#E85D26',
+                borderWidth: 2.5,
+                tension: 0.35,
+                yAxisID: 'y1'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#9BB0A8' } } },
+            scales: {
+              x: { ticks: { color: '#6B827A' }, grid: { display: false } },
+              y: { position: 'left', ticks: { color: '#2DD4BF' }, grid: { color: '#1F332D' } },
+              y1: { position: 'right', ticks: { color: '#E85D26' }, grid: { display: false } }
+            }
+          }
+        });
+
+        // TABLA DE AUDITORÍA
         const tbody = document.getElementById('tbody-financial-audit');
-        tbody.innerHTML = sales.map(s => {
+        tbody.innerHTML = sales.slice().reverse().map(s => {
           const compName = s.leads ? s.leads.company_name : 'Cliente Directo';
           const carrierPaid = s.carrier_paid ? '<span style="color:var(--emerald-accent); font-weight:700;"><i class="fa-solid fa-check"></i> Pagado</span>' : '<span style="color:var(--text-dim);">Pendiente</span>';
           const feeTransferred = s.fee_transferred_to_agent ? '<span style="color:var(--emerald-accent); font-weight:700;"><i class="fa-solid fa-check"></i> Transferido</span>' : '<span style="color:var(--gold-accent);">Por Transferir</span>';
@@ -1513,28 +1786,34 @@
       } catch (e) { alert("Error al actualizar: " + e.message); }
     }
 
-    // TABLERO 3: PIPELINE & GESTIÓN DE PÉRDIDAS
+    // TABLERO 3: PIPELINE CON SLICERS
     async function cargarPipeline() {
+      const yearSlicer = document.getElementById('slicer-pipe-year').value;
+      const monthSlicer = document.getElementById('slicer-pipe-month').value;
       const filtro = document.getElementById('filtro-pipe-status').value;
+      let agentSlicer = isAdmin ? document.getElementById('slicer-pipe-agent').value : AGENT_MAPPING[agentParam.toLowerCase()];
+
       try {
         let endpoint = 'quote_requests?select=*,leads(company_name,contact_name,primary_phone)&order=created_at.desc';
         if (filtro !== 'todos') {
           endpoint += `&status=eq.${encodeURIComponent(filtro)}`;
         }
-        if (!isAdmin && agentParam && AGENT_MAPPING[agentParam.toLowerCase()]) {
-          const agente = AGENT_MAPPING[agentParam.toLowerCase()];
-          endpoint += `&agent_name=eq.${encodeURIComponent(agente)}`;
-          document.getElementById('pipe-dash-title').innerHTML = `<i class="fa-solid fa-filter-circle-dollar mr-2 text-orange-500"></i> Mi Pipeline de Cotizaciones`;
-          document.getElementById('pipe-dash-subtitle').innerText = `Tus cotizaciones activas, cierres y motivos de pérdida`;
-        } else {
-          document.getElementById('pipe-dash-title').innerHTML = `<i class="fa-solid fa-filter-circle-dollar mr-2 text-orange-500"></i> Pipeline de Cotizaciones & Análisis de Pérdidas`;
-          document.getElementById('pipe-dash-subtitle').innerText = `Seguimiento a cotizaciones de todo el equipo y auditoría de objeciones`;
+        if (agentSlicer !== 'todos') {
+          endpoint += `&agent_name=eq.${encodeURIComponent(agentSlicer)}`;
         }
 
-        const data = await supabaseRequest(endpoint);
+        const rawData = await supabaseRequest(endpoint);
+        const data = (rawData || []).filter(q => {
+          if (!q.created_at) return false;
+          const [y, m] = q.created_at.split('T')[0].split('-');
+          if (yearSlicer !== 'todos' && y !== yearSlicer) return false;
+          if (monthSlicer !== 'todos' && m !== monthSlicer) return false;
+          return true;
+        });
+
         const tbody = document.getElementById('tbody-pipeline');
         if (!data || data.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:3rem; color:var(--text-dim);">No hay cotizaciones registradas en este estado.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:3rem; color:var(--text-dim);">No hay cotizaciones registradas para estos filtros.</td></tr>`;
           return;
         }
 
