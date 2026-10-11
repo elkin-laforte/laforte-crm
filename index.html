@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LaForte Insurance | Sales & Telephony Command Console</title>
+  <title>LaForte Insurance | Sales, Analytics & Command Console</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     :root {
@@ -27,6 +28,7 @@
       --text-muted: #9BB0A8;
       --text-dim: #6B827A;
       --emerald-accent: #2DD4BF;
+      --gold-accent: #FBBF24;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,7 +47,7 @@
     header {
       background-color: var(--bg-surface);
       border-bottom: 1px solid var(--border-card);
-      padding: 0.75rem 1.75rem;
+      padding: 0.65rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -60,45 +62,54 @@
     }
     .brand-logo-pill {
       background: #FFFFFF;
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      font-size: 1.05rem;
+      font-size: 1rem;
       letter-spacing: -0.05em;
       color: #121C19;
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
-    .brand-names {
-      display: flex;
-      flex-direction: column;
-    }
     .brand-title {
       font-family: 'Instrument Serif', serif;
-      font-size: 1.45rem;
-      font-weight: 400;
-      letter-spacing: 0.01em;
+      font-size: 1.35rem;
       color: #FFFFFF;
       line-height: 1.1;
     }
     .brand-sub {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 600;
       color: var(--orange-brand);
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-top: 1px;
     }
 
-    /* PESTAÑAS NAV */
+    /* BONUS: WALLET EN CABECERA */
+    .agent-wallet-pill {
+      background: linear-gradient(135deg, rgba(234, 88, 12, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%);
+      border: 1px solid rgba(234, 88, 12, 0.35);
+      border-radius: 10px;
+      padding: 5px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .wallet-item { display: flex; flex-direction: column; }
+    .wallet-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; }
+    .wallet-value { font-size: 13px; font-weight: 700; color: #FFFFFF; }
+    .wallet-value.earnings { color: var(--emerald-accent); }
+
+    /* NAVEGACIÓN SUPERIOR */
     .nav-tabs {
       display: flex;
       background-color: #0E1614;
       padding: 4px;
-      border-radius: 12px;
+      border-radius: 11px;
       border: 1px solid var(--border-card);
       gap: 4px;
     }
@@ -106,15 +117,15 @@
       background: transparent;
       border: none;
       color: var(--text-muted);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      padding: 6px 14px;
-      border-radius: 8px;
+      padding: 5px 12px;
+      border-radius: 7px;
       cursor: pointer;
       transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
     .nav-tab-btn:hover { color: #FFFFFF; }
     .nav-tab-btn.active {
@@ -122,8 +133,8 @@
       color: #FFFFFF;
       box-shadow: 0 4px 12px var(--orange-glow);
     }
-    .nav-tab-btn.kpi-btn { color: var(--emerald-accent); }
-    .nav-tab-btn.kpi-btn.active {
+    .nav-tab-btn.dashboard-btn { color: var(--emerald-accent); }
+    .nav-tab-btn.dashboard-btn.active {
       background-color: var(--emerald-accent);
       color: #121C19;
       font-weight: 700;
@@ -136,7 +147,7 @@
       overflow: hidden;
     }
 
-    /* LISTA */
+    /* VISTA 1: CONSOLA DE TELEVENTAS (SPLIT VIEW) */
     .list-panel {
       flex: 1;
       display: flex;
@@ -145,9 +156,8 @@
       background-color: var(--bg-dark);
       min-width: 0;
     }
-
     .list-toolbar {
-      padding: 0.85rem 1.25rem;
+      padding: 0.75rem 1.25rem;
       background-color: var(--bg-surface);
       border-bottom: 1px solid var(--border-card);
       display: flex;
@@ -155,7 +165,6 @@
       justify-content: space-between;
       gap: 1rem;
     }
-
     .search-box {
       position: relative;
       flex: 1;
@@ -174,9 +183,9 @@
       background-color: #0E1614;
       border: 1px solid var(--border-card);
       border-radius: 9px;
-      padding: 7px 10px 7px 34px;
+      padding: 6px 10px 6px 34px;
       color: var(--text-main);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       outline: none;
     }
     .search-box input:focus { border-color: var(--orange-brand); }
@@ -185,7 +194,6 @@
       flex: 1;
       overflow-y: auto;
     }
-
     .leads-table {
       width: 100%;
       border-collapse: collapse;
@@ -200,7 +208,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      padding: 0.75rem 1rem;
+      padding: 0.7rem 1rem;
       border-bottom: 1px solid var(--border-card);
       text-align: left;
       z-index: 10;
@@ -216,7 +224,7 @@
       border-left: 3px solid var(--orange-brand);
     }
     .leads-table td {
-      padding: 0.7rem 1rem;
+      padding: 0.65rem 1rem;
       white-space: nowrap;
     }
 
@@ -230,7 +238,6 @@
       overflow-y: auto;
       border-left: 1px solid var(--border-card);
     }
-
     .inspector-header {
       padding: 1.25rem 1.35rem;
       border-bottom: 1px solid var(--border-card);
@@ -239,13 +246,10 @@
     .inspector-header h3 {
       font-family: 'Instrument Serif', serif;
       font-size: 1.45rem;
-      font-weight: 400;
       color: #FFFFFF;
       line-height: 1.15;
-      margin-top: 6px;
+      margin-top: 5px;
     }
-
-    /* SUB TABS DEL INSPECTOR */
     .inspector-tabs {
       display: flex;
       background: #0E1614;
@@ -269,7 +273,6 @@
       color: #FFFFFF;
       border: 1px solid var(--border-card);
     }
-
     .inspector-body {
       padding: 1.25rem;
       display: flex;
@@ -278,6 +281,7 @@
       flex: 1;
     }
 
+    /* META BOXES & CARDS */
     .meta-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -296,10 +300,7 @@
       display: block;
       margin-bottom: 2px;
     }
-    .meta-grid-item span:last-child {
-      color: #E6EDE9;
-      font-weight: 600;
-    }
+    .meta-grid-item span:last-child { color: #E6EDE9; font-weight: 600; }
 
     .ai-summary-card {
       background: #0E1614;
@@ -340,12 +341,9 @@
       box-shadow: 0 4px 14px var(--orange-glow);
       transition: all 0.2s ease;
     }
-    .btn-call-large:hover {
-      background-color: var(--orange-hover);
-      transform: translateY(-1px);
-    }
+    .btn-call-large:hover { background-color: var(--orange-hover); transform: translateY(-1px); }
 
-    /* FORMULARIOS NATIVOS */
+    /* FORMS NATIVOS */
     .form-box {
       background: #0E1614;
       border: 1px solid var(--border-card);
@@ -365,17 +363,8 @@
       align-items: center;
       gap: 6px;
     }
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-    .form-field label {
-      font-size: 0.68rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-    }
+    .form-field { display: flex; flex-direction: column; gap: 3px; }
+    .form-field label { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
     .form-field input, .form-field select, .form-field textarea {
       background: #14201D;
       border: 1px solid var(--border-card);
@@ -386,14 +375,8 @@
       outline: none;
       font-family: inherit;
     }
-    .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
-      border-color: var(--orange-brand);
-    }
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.6rem;
-    }
+    .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--orange-brand); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
     .btn-save-form {
       background: linear-gradient(135deg, #10B981 0%, #059669 100%);
       color: #FFFFFF;
@@ -408,7 +391,6 @@
       justify-content: center;
       gap: 6px;
       transition: all 0.2s;
-      margin-top: 4px;
     }
     .btn-save-form:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
@@ -429,18 +411,76 @@
       transition: all 0.15s;
       text-align: center;
     }
-    .btn-disp:hover {
-      background: #1F332D;
-      color: #FFFFFF;
-      border-color: var(--border-focus);
-    }
-    .btn-disp.selected {
-      background: rgba(232, 93, 38, 0.2);
-      border-color: var(--orange-brand);
-      color: var(--orange-light);
-    }
+    .btn-disp:hover { background: #1F332D; color: #FFFFFF; }
+    .btn-disp.selected { background: rgba(232, 93, 38, 0.2); border-color: var(--orange-brand); color: var(--orange-light); }
 
-    /* BADGES */
+    /* VISTAS DE ANALYTICS / DASHBOARDS */
+    .dashboard-panel {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      background: var(--bg-dark);
+    }
+    .dash-kpis-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .dash-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .dash-card-title { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display:flex; align-items:center; gap:6px; }
+    .dash-card-value { font-family: 'JetBrains Mono', monospace; font-size: 1.45rem; font-weight: 700; color: #FFFFFF; }
+    .dash-card-sub { font-size: 0.68rem; color: var(--text-dim); }
+
+    .charts-split-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.25rem;
+    }
+    .chart-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .chart-box-header { display: flex; justify-content: space-between; align-items: center; }
+    .chart-box-header h3 { font-size: 0.95rem; font-weight: 700; color: #FFFFFF; }
+
+    /* TOGGLES TEMPORALES DoD / WoW / MoM */
+    .period-toggles {
+      display: flex;
+      background: #0E1614;
+      border: 1px solid var(--border-card);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 3px;
+    }
+    .period-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .period-btn.active { background: var(--orange-brand); color: #FFFFFF; }
+
+    /* PILLS */
     .status-pill {
       font-size: 9px;
       font-weight: 700;
@@ -452,15 +492,7 @@
     }
     .status-pill.pending { background: rgba(232, 93, 38, 0.16); color: var(--orange-light); border: 1px solid rgba(232, 93, 38, 0.3); }
     .status-pill.called { background: rgba(45, 212, 191, 0.14); color: var(--emerald-accent); border: 1px solid rgba(45, 212, 191, 0.3); }
-
-    .agent-pill {
-      font-size: 9px;
-      font-weight: 600;
-      padding: 2.5px 7px;
-      border-radius: 5px;
-      background: rgba(255, 255, 255, 0.08);
-      color: #D1DBD7;
-    }
+    .agent-pill { font-size: 9px; font-weight: 600; padding: 2.5px 7px; border-radius: 5px; background: rgba(255, 255, 255, 0.08); color: #D1DBD7; }
 
     .font-mono-code { font-family: 'JetBrains Mono', monospace; }
     .hidden { display: none !important; }
@@ -478,25 +510,40 @@
       </div>
     </div>
 
-    <!-- TABS DE NAVEGACIÓN (SE OCULTAN EN MODO AGENTE PRIVADO) -->
+    <!-- BONUS: WALLET EN VIVO EN CABECERA -->
+    <div id="agent-wallet-header" class="agent-wallet-pill">
+      <div class="wallet-item">
+        <span class="wallet-label"><i class="fa-solid fa-trophy mr-1 text-amber-400"></i> Pólizas</span>
+        <span class="wallet-value" id="wallet-policies">0</span>
+      </div>
+      <div style="width:1px; height:24px; background:var(--border-card);"></div>
+      <div class="wallet-item">
+        <span class="wallet-label"><i class="fa-solid fa-dollar-sign mr-1 text-emerald-400"></i> Comisión (70%)</span>
+        <span class="wallet-value earnings" id="wallet-earnings">$0</span>
+      </div>
+      <div style="width:1px; height:24px; background:var(--border-card);"></div>
+      <div class="wallet-item">
+        <span class="wallet-label">Por Transferir</span>
+        <span class="wallet-value" style="color:var(--gold-accent);" id="wallet-pending">$0</span>
+      </div>
+    </div>
+
+    <!-- TABS DE NAVEGACIÓN -->
     <div class="nav-tabs" id="nav-admin-tabs">
-      <button onclick="cambiarVista('ALL')" id="tab-all" class="nav-tab-btn active"><i class="fa-solid fa-users"></i> Todo el Equipo</button>
+      <button onclick="cambiarVista('ALL')" id="tab-all" class="nav-tab-btn active"><i class="fa-solid fa-users"></i> Equipo</button>
       <button onclick="cambiarVista('Wendy Falon')" id="tab-wendy" class="nav-tab-btn">Wendy</button>
       <button onclick="cambiarVista('Juan Pablo')" id="tab-juan" class="nav-tab-btn">Juan Pablo</button>
       <button onclick="cambiarVista('Cristian')" id="tab-cristian" class="nav-tab-btn">Cristian</button>
-      <button onclick="cambiarVista('KPIs')" id="tab-kpis" class="nav-tab-btn kpi-btn"><i class="fa-solid fa-chart-line"></i> KPIs Gerencial</button>
-    </div>
-
-    <!-- IDENTIFICADOR DE AGENTE PRIVADO -->
-    <div id="badge-agent-locked" class="hidden" style="display:flex; align-items:center; gap:8px;">
-      <span class="status-pill called" style="font-size:10px;"><i class="fa-solid fa-user-check mr-1"></i> <span id="agent-locked-name">-</span></span>
+      <button onclick="cambiarTabDashboard('quo')" id="tab-quo" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-phone-volume"></i> Esfuerzo QUO</button>
+      <button onclick="cambiarTabDashboard('executive')" id="tab-exec" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-chart-pie"></i> Gerencial & Financiero</button>
+      <button onclick="cambiarTabDashboard('pipeline')" id="tab-pipeline" class="nav-tab-btn dashboard-btn"><i class="fa-solid fa-filter-circle-dollar"></i> Pipeline & Pérdidas</button>
     </div>
   </header>
 
   <!-- APP WORKSPACE -->
   <div class="app-workspace">
 
-    <!-- PANEL LISTADO -->
+    <!-- VISTA 1: CONSOLA DE TELEVENTAS -->
     <div id="workspace-leads" class="list-panel">
       <div class="list-toolbar">
         <div class="search-box">
@@ -528,13 +575,13 @@
             </tr>
           </thead>
           <tbody id="tbody-leads">
-            <tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Cargando prospectos desde Supabase...</td></tr>
+            <tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Cargando base de prospectos...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- PANEL INSPECTOR MODULAR (CALL & ACTION CENTER) -->
+    <!-- PANEL INSPECTOR (FICHA DE PROSPECTO) -->
     <div id="inspector-panel" class="inspector-panel">
       <div class="inspector-header">
         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -545,7 +592,6 @@
         <p id="insp-contact" style="font-size:0.76rem; color:var(--text-muted); margin-top:4px;"><i class="fa-regular fa-user mr-1 text-slate-500"></i> -</p>
       </div>
 
-      <!-- PESTAÑAS DE ACCIÓN DENTRO DEL INSPECTOR -->
       <div class="inspector-tabs">
         <button onclick="cambiarTabInspector('tab-call')" id="btn-insp-call" class="insp-tab-btn active"><i class="fa-solid fa-phone mr-1"></i> Llamada</button>
         <button onclick="cambiarTabInspector('tab-quote')" id="btn-insp-quote" class="insp-tab-btn"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> Cotizar</button>
@@ -560,7 +606,6 @@
             <i class="fa-solid fa-phone"></i> Llamar por QUO (<span id="insp-phone-display">-</span>)
           </a>
 
-          <!-- DISPOSICIÓN DE LA LLAMADA (NATIVO) -->
           <div class="form-box">
             <h4><i class="fa-solid fa-list-check" style="color:var(--orange-brand);"></i> Resultado de Llamada</h4>
             <div class="btn-disposition-grid">
@@ -599,25 +644,31 @@
 
           <div class="ai-summary-card">
             <h4><i class="fa-solid fa-wand-magic-sparkles"></i> Resumen de IA (QUO)</h4>
-            <p id="insp-ai-summary">Haz clic en cualquier prospecto para revisar el análisis de audio de llamadas previas.</p>
+            <p id="insp-ai-summary">Haz clic en cualquier prospecto para revisar el análisis de llamadas previas.</p>
           </div>
         </div>
 
-        <!-- SUB-VISTA 2: COTIZAR (FORMULARIO NATIVO) -->
+        <!-- SUB-VISTA 2: COTIZAR -->
         <div id="insp-view-quote" class="hidden">
           <div class="form-box">
-            <h4><i class="fa-solid fa-file-signature" style="color:var(--orange-brand);"></i> Datos para Cotización</h4>
+            <h4><i class="fa-solid fa-file-signature" style="color:var(--orange-brand);"></i> Solicitud de Cotización</h4>
             
-            <div class="form-field">
-              <label>Tipo de Operación / Tráiler</label>
-              <select id="q-op-type">
-                <option value="Dry Van">Dry Van</option>
-                <option value="Reefer">Reefer (Refrigerado)</option>
-                <option value="Flatbed">Flatbed (Plataforma)</option>
-                <option value="Power Only">Power Only</option>
-                <option value="Step Deck / Hotshot">Step Deck / Hotshot</option>
-                <option value="Box Truck">Box Truck</option>
-              </select>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Tipo de Operación</label>
+                <select id="q-op-type">
+                  <option value="Dry Van">Dry Van</option>
+                  <option value="Reefer">Reefer</option>
+                  <option value="Flatbed">Flatbed</option>
+                  <option value="Power Only">Power Only</option>
+                  <option value="Step Deck / Hotshot">Step Deck / Hotshot</option>
+                  <option value="Box Truck">Box Truck</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Prima Estimada ($ USD)</label>
+                <input type="number" id="q-amount" placeholder="Ej. 11500.00" step="0.01">
+              </div>
             </div>
 
             <div class="form-row">
@@ -625,7 +676,7 @@
                 <label>Radio de Operación</label>
                 <select id="q-radius">
                   <option value="48 Estados (Interstate)">48 Estados</option>
-                  <option value="Regional (500 millas)">Regional (< 500 mi)</option>
+                  <option value="Regional (< 500 mi)">Regional (< 500 mi)</option>
                   <option value="Local (Intrastate)">Local (Intrastate)</option>
                 </select>
               </div>
@@ -652,15 +703,15 @@
             </div>
 
             <div class="form-field">
-              <label>Notas de Carga y Requerimientos</label>
-              <textarea id="q-notes" rows="3" placeholder="Requerimientos de cobertura, límites, carga específica..."></textarea>
+              <label>Notas de Carga y Cobertura</label>
+              <textarea id="q-notes" rows="3" placeholder="Detalles de límites, cargo, liability..."></textarea>
             </div>
 
             <button class="btn-save-form" onclick="guardarCotizacion()"><i class="fa-solid fa-floppy-disk"></i> Registrar Cotización</button>
           </div>
         </div>
 
-        <!-- SUB-VISTA 3: CERRAR VENTA (FORMULARIO NATIVO) -->
+        <!-- SUB-VISTA 3: CERRAR VENTA -->
         <div id="insp-view-sale" class="hidden">
           <div class="form-box">
             <h4><i class="fa-solid fa-trophy" style="color:var(--emerald-accent);"></i> Registrar Cierre de Póliza</h4>
@@ -682,25 +733,25 @@
                 <input type="number" id="s-premium" placeholder="Ej. 12500.00" step="0.01">
               </div>
               <div class="form-field">
-                <label>Down Payment USD ($)</label>
-                <input type="number" id="s-downpayment" placeholder="Ej. 1500.00" step="0.01">
+                <label>Admin Fee Cobrado USD ($)</label>
+                <input type="number" id="s-admin-fee" placeholder="Ej. 500.00" step="0.01">
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-field">
-                <label>Fecha de Inicio (Effective)</label>
-                <input type="date" id="s-effective-date">
+                <label>Down Payment USD ($)</label>
+                <input type="number" id="s-downpayment" placeholder="Ej. 1500.00" step="0.01">
               </div>
               <div class="form-field">
-                <label>Fecha Expiración</label>
-                <input type="date" id="s-expiration-date">
+                <label>Fecha Inicio (Effective)</label>
+                <input type="date" id="s-effective-date">
               </div>
             </div>
 
             <div class="form-field">
               <label>Notas del Cierre</label>
-              <textarea id="s-notes" rows="2" placeholder="Detalles de pago, emisión de certificados..."></textarea>
+              <textarea id="s-notes" rows="2" placeholder="Detalles de emisión, firma..."></textarea>
             </div>
 
             <button class="btn-save-form" style="background:linear-gradient(135deg, #E85D26 0%, #D04F1B 100%);" onclick="guardarVenta()">
@@ -712,30 +763,179 @@
       </div>
     </div>
 
-    <!-- SECCIÓN KPIS -->
-    <div id="workspace-kpis" class="list-panel hidden" style="padding:1.5rem; overflow-y:auto; background:var(--bg-dark);">
-      <div style="background:var(--bg-surface); border:1px solid var(--border-card); border-radius:14px; overflow:hidden;">
-        <div style="padding:1.25rem; border-bottom:1px solid var(--border-card); display:flex; justify-content:space-between; align-items:center;">
-          <div>
-            <h3 style="font-family:'Instrument Serif', serif; font-size:1.35rem; color:#FFFFFF;">Rendimiento Comercial & Telemetría QUO</h3>
-            <p style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Consolidado en vivo desde quo_call_logs</p>
-          </div>
-          <button onclick="cargarKPIs()" style="background:#0E1614; border:1px solid var(--border-card); color:#FFFFFF; padding:6px 12px; border-radius:8px; font-size:0.75rem; cursor:pointer;"><i class="fa-solid fa-rotate mr-1"></i> Refrescar</button>
+    <!-- TABLERO 1: ESFUERZO & TELEFONÍA QUO (CON MUCHAS GRÁFICAS) -->
+    <div id="dashboard-quo" class="dashboard-panel hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h2 style="font-family:'Instrument Serif', serif; font-size:1.6rem; color:#FFFFFF;"><i class="fa-solid fa-phone-volume mr-2 text-orange-500"></i> Esfuerzo de Telefonía & Conexión (QUO)</h2>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Auditoría de actividad diaria, semanal y mensual por asesor comercial</p>
         </div>
-        <table class="leads-table">
+        <div class="period-toggles">
+          <button class="period-btn active" onclick="cambiarPeriodoQuo('dod')" id="btn-dod">DoD (Día)</button>
+          <button class="period-btn" onclick="cambiarPeriodoQuo('wow')" id="btn-wow">WoW (Semana)</button>
+          <button class="period-btn" onclick="cambiarPeriodoQuo('mom')" id="btn-mom">MoM (Mes)</button>
+        </div>
+      </div>
+
+      <!-- CARDS DE TOTALES -->
+      <div class="dash-kpis-grid">
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fa-solid fa-phone text-orange-500"></i> Llamadas Salientes</div>
+          <div class="dash-card-value" id="kpi-quo-total">0</div>
+          <div class="dash-card-sub" id="kpi-quo-total-sub">Total registradas</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fa-solid fa-headset text-emerald-400"></i> Live Connects (>60s)</div>
+          <div class="dash-card-value" style="color:var(--emerald-accent);" id="kpi-quo-connects">0</div>
+          <div class="dash-card-sub">Conversaciones reales</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fa-solid fa-stopwatch text-amber-400"></i> Talk Time Total</div>
+          <div class="dash-card-value" id="kpi-quo-talktime">0 min</div>
+          <div class="dash-card-sub">Tiempo al teléfono</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fa-solid fa-bullseye text-sky-400"></i> Tasa Conexión (%)</div>
+          <div class="dash-card-value" id="kpi-quo-pct">0%</div>
+          <div class="dash-card-sub">Efectividad de contacto</div>
+        </div>
+      </div>
+
+      <!-- GRÁFICAS PRO CON CHART.JS -->
+      <div class="charts-split-grid">
+        <div class="chart-box">
+          <div class="chart-box-header">
+            <h3><i class="fa-solid fa-chart-column mr-2 text-orange-500"></i> Tendencia de Llamadas Salientes vs. Conexiones Efectivas</h3>
+          </div>
+          <div style="height: 260px; position: relative;">
+            <canvas id="chartQuoVolume"></canvas>
+          </div>
+        </div>
+        <div class="chart-box">
+          <div class="chart-box-header">
+            <h3><i class="fa-solid fa-chart-pie mr-2 text-emerald-400"></i> Distribución de Esfuerzo</h3>
+          </div>
+          <div style="height: 260px; position: relative;">
+            <canvas id="chartQuoAgentSplit"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLA DETALLADA POR AGENTE -->
+      <div class="chart-box">
+        <div class="chart-box-header">
+          <h3><i class="fa-solid fa-table-list mr-2 text-orange-500"></i> Comparativa de Asesores</h3>
+        </div>
+        <table class="leads-table font-mono-code">
           <thead>
             <tr>
-              <th>Fecha</th>
+              <th>Período</th>
               <th>Asesor</th>
               <th style="text-align:center;">Llamadas</th>
-              <th style="text-align:center;">Conexiones</th>
+              <th style="text-align:center;">Live Connects (>60s)</th>
               <th style="text-align:center;">Efectividad</th>
-              <th style="text-align:center;">Talk Time</th>
-              <th style="text-align:center;">Promedio</th>
-              <th style="text-align:center;">Grabaciones</th>
+              <th style="text-align:center;">Talk Time (Min)</th>
+              <th style="text-align:center;">Promedio (Seg)</th>
             </tr>
           </thead>
-          <tbody id="tbody-kpis" class="font-mono-code"></tbody>
+          <tbody id="tbody-quo-metrics"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TABLERO 2: GERENCIAL & FINANCIERO -->
+    <div id="dashboard-exec" class="dashboard-panel hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h2 style="font-family:'Instrument Serif', serif; font-size:1.6rem; color:#FFFFFF;"><i class="fa-solid fa-sack-dollar mr-2 text-emerald-400"></i> Dashboard Gerencial & Conciliación Financiera</h2>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Control de primas emitidas, Admin Fees, split de comisiones y auditoría de pagos</p>
+        </div>
+        <button onclick="cargarDashboardFinanciero()" style="background:#0E1614; border:1px solid var(--border-card); color:#FFFFFF; padding:6px 14px; border-radius:8px; font-size:0.75rem; cursor:pointer;"><i class="fa-solid fa-rotate mr-1"></i> Refrescar Conciliación</button>
+      </div>
+
+      <!-- TOTALES FINANCIEROS -->
+      <div class="dash-kpis-grid">
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fa-solid fa-file-shield text-sky-400"></i> Pólizas Cerradas</div>
+          <div class="dash-card-value" id="kpi-fin-policies">0</div>
+          <div class="dash-card-sub">Cierres confirmados</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fa-solid fa-money-bill-wave text-emerald-400"></i> Prima Total Emitida</div>
+          <div class="dash-card-value" style="color:var(--emerald-accent);" id="kpi-fin-premium">$0</div>
+          <div class="dash-card-sub">Volumen de primas USD</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fa-solid fa-hand-holding-dollar text-orange-400"></i> Admin Fees Cobrados</div>
+          <div class="dash-card-value" id="kpi-fin-fees">$0</div>
+          <div class="dash-card-sub">Ingresos directos por fee</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fa-solid fa-scale-balanced text-amber-400"></i> Comisiones Asesores (70%)</div>
+          <div class="dash-card-value" style="color:var(--gold-accent);" id="kpi-fin-commissions">$0</div>
+          <div class="dash-card-sub">Split comercial devengado</div>
+        </div>
+      </div>
+
+      <!-- TABLA DE AUDITORÍA FINANCIERA (CONTROL ADMIN) -->
+      <div class="chart-box">
+        <div class="chart-box-header">
+          <h3><i class="fa-solid fa-clipboard-check mr-2 text-emerald-400"></i> Auditoría de Pagos & Transferencias (Exclusivo Dirección)</h3>
+        </div>
+        <table class="leads-table font-mono-code">
+          <thead>
+            <tr>
+              <th>Fecha Cierre</th>
+              <th>Póliza Nº</th>
+              <th>Asegurado</th>
+              <th>Asesor</th>
+              <th>Aseguradora</th>
+              <th>Prima</th>
+              <th>Admin Fee</th>
+              <th>Comisión Asesor (70%)</th>
+              <th style="text-align:center;">Carrier Pagó</th>
+              <th style="text-align:center;">Fee Transferido</th>
+              <th style="text-align:center;">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-financial-audit"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TABLERO 3: PIPELINE & GESTIÓN DE PÉRDIDAS -->
+    <div id="dashboard-pipeline" class="dashboard-panel hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h2 style="font-family:'Instrument Serif', serif; font-size:1.6rem; color:#FFFFFF;"><i class="fa-solid fa-filter-circle-dollar mr-2 text-orange-500"></i> Pipeline de Cotizaciones & Análisis de Pérdidas</h2>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Seguimiento a cotizaciones activas y auditoría de motivos de objeción / pérdida</p>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <select id="filtro-pipe-status" onchange="cargarPipeline()" style="background:#0E1614; border:1px solid var(--border-card); color:#FFFFFF; font-size:0.75rem; padding:6px 12px; border-radius:8px;">
+            <option value="todos">Todos los Estados</option>
+            <option value="En Seguimiento" selected>En Seguimiento (Activas)</option>
+            <option value="Perdida">Perdidas (Objeciones)</option>
+            <option value="Cerrada Ganada">Cerradas Ganadas</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <table class="leads-table font-mono-code">
+          <thead>
+            <tr>
+              <th>Fecha Cotización</th>
+              <th>Compañía / Prospecto</th>
+              <th>Asesor</th>
+              <th>Operación</th>
+              <th>Unidades</th>
+              <th>Prima Cotizada</th>
+              <th>Estado</th>
+              <th>Motivo de Pérdida</th>
+              <th style="text-align:center;">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-pipeline"></tbody>
         </table>
       </div>
     </div>
@@ -751,7 +951,7 @@
     let leadSeleccionado = null;
     let disposicionSeleccionada = '';
 
-    // Manejo de roles y privacidad por URL
+    // Manejo de roles y URL
     const params = new URLSearchParams(window.location.search);
     const agentParam = params.get('agent');
     const isAdmin = params.get('admin') === 'true' || !agentParam;
@@ -761,6 +961,10 @@
       'juan': 'Juan Pablo',
       'cristian': 'Cristian'
     };
+
+    let chartQuoVol = null;
+    let chartQuoSplit = null;
+    let periodoQuoActual = 'dod';
 
     async function supabaseRequest(endpoint, method = 'GET', body = null) {
       const options = {
@@ -784,44 +988,88 @@
         const agenteNombre = AGENT_MAPPING[agentParam.toLowerCase()];
         vistaActual = agenteNombre;
         document.getElementById('nav-admin-tabs').classList.add('hidden');
-        document.getElementById('badge-agent-locked').classList.remove('hidden');
-        document.getElementById('badge-agent-locked').style.display = 'flex';
-        document.getElementById('agent-locked-name').innerText = agenteNombre;
         document.getElementById('lbl-portal-type').innerText = `Consola Comercial - ${agenteNombre}`;
+        cargarWalletAsesor(agenteNombre);
       } else {
-        // MODO DIRECCIÓN / ADMIN
+        // MODO DIRECCIÓN
         vistaActual = 'ALL';
+        cargarWalletGeneral();
       }
       cargarLeads();
+    }
+
+    // BONUS: CARGA DEL WALLET
+    async function cargarWalletAsesor(agente) {
+      try {
+        const data = await supabaseRequest(`v_agent_wallet?agent_name=eq.${encodeURIComponent(agente)}`);
+        if (data && data.length > 0) {
+          const w = data[0];
+          document.getElementById('wallet-policies').innerText = w.total_policies_sold || 0;
+          document.getElementById('wallet-earnings').innerText = `$${(w.total_agent_earnings || 0).toLocaleString()} USD`;
+          document.getElementById('wallet-pending').innerText = `$${(w.earnings_pending || 0).toLocaleString()} USD`;
+        }
+      } catch (e) { console.error("Error al cargar wallet:", e); }
+    }
+
+    async function cargarWalletGeneral() {
+      try {
+        const data = await supabaseRequest('v_agent_wallet?select=*');
+        if (data) {
+          const totalPol = data.reduce((acc, r) => acc + (r.total_policies_sold || 0), 0);
+          const totalEarn = data.reduce((acc, r) => acc + (r.total_agent_earnings || 0), 0);
+          const totalPend = data.reduce((acc, r) => acc + (r.earnings_pending || 0), 0);
+          document.getElementById('wallet-policies').innerText = totalPol;
+          document.getElementById('wallet-earnings').innerText = `$${totalEarn.toLocaleString()} USD`;
+          document.getElementById('wallet-pending').innerText = `$${totalPend.toLocaleString()} USD`;
+        }
+      } catch (e) { console.error("Error al cargar wallet general:", e); }
+    }
+
+    // NAVEGACIÓN GENERAL
+    function ocultarTodosWorkspaces() {
+      document.getElementById('workspace-leads').classList.add('hidden');
+      document.getElementById('inspector-panel').classList.add('hidden');
+      document.getElementById('dashboard-quo').classList.add('hidden');
+      document.getElementById('dashboard-exec').classList.add('hidden');
+      document.getElementById('dashboard-pipeline').classList.add('hidden');
     }
 
     async function cambiarVista(vista) {
       vistaActual = vista;
       document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
 
-      const map = { 'ALL':'tab-all', 'Wendy Falon':'tab-wendy', 'Juan Pablo':'tab-juan', 'Cristian':'tab-cristian', 'KPIs':'tab-kpis' };
+      const map = { 'ALL':'tab-all', 'Wendy Falon':'tab-wendy', 'Juan Pablo':'tab-juan', 'Cristian':'tab-cristian' };
       if (map[vista]) document.getElementById(map[vista]).classList.add('active');
 
-      const leadsWs = document.getElementById('workspace-leads');
-      const inspPanel = document.getElementById('inspector-panel');
-      const kpisWs = document.getElementById('workspace-kpis');
+      ocultarTodosWorkspaces();
+      document.getElementById('workspace-leads').classList.remove('hidden');
+      document.getElementById('inspector-panel').classList.remove('hidden');
+      cargarLeads();
+    }
 
-      if (vista === 'KPIs') {
-        leadsWs.classList.add('hidden');
-        inspPanel.classList.add('hidden');
-        kpisWs.classList.remove('hidden');
-        cargarKPIs();
-      } else {
-        leadsWs.classList.remove('hidden');
-        inspPanel.classList.remove('hidden');
-        kpisWs.classList.add('hidden');
-        cargarLeads();
+    function cambiarTabDashboard(tab) {
+      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+      ocultarTodosWorkspaces();
+
+      if (tab === 'quo') {
+        document.getElementById('tab-quo').classList.add('active');
+        document.getElementById('dashboard-quo').classList.remove('hidden');
+        cargarDashboardQuo();
+      } else if (tab === 'executive') {
+        document.getElementById('tab-exec').classList.add('active');
+        document.getElementById('dashboard-exec').classList.remove('hidden');
+        cargarDashboardFinanciero();
+      } else if (tab === 'pipeline') {
+        document.getElementById('tab-pipeline').classList.add('active');
+        document.getElementById('dashboard-pipeline').classList.remove('hidden');
+        cargarPipeline();
       }
     }
 
+    // LISTADO & TELEVENTAS
     async function cargarLeads() {
       const tbody = document.getElementById('tbody-leads');
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Consultando base de datos...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:3rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Consultando base de prospectos...</td></tr>`;
 
       try {
         let endpoint = 'v_agent_leads_portfolio?select=*&limit=150';
@@ -846,7 +1094,6 @@
                           (l.mc_number || '').includes(texto);
 
         if (!matchText) return false;
-
         const calls = l.total_calls_made || 0;
         if (estadoFiltro === 'sin_contacto') return calls === 0;
         if (estadoFiltro === 'contactados') return calls > 0;
@@ -919,7 +1166,6 @@
 
       document.getElementById('insp-ai-summary').innerText = l.last_quo_summary || 'No se registran llamadas previas de QUO para este prospecto. Al realizar la llamada se procesará la transcripción e IA automáticamente.';
 
-      // Limpiar formularios al cambiar de prospecto
       document.querySelectorAll('.btn-disp').forEach(b => b.classList.remove('selected'));
       disposicionSeleccionada = '';
       document.getElementById('disp-notes').value = '';
@@ -952,63 +1198,62 @@
       disposicionSeleccionada = disp;
       document.querySelectorAll('.btn-disp').forEach(b => {
         b.classList.remove('selected');
-        if (b.innerText.trim() === disp || (disp === 'Equivocado / Fuera de Servicio' && b.innerText.trim() === 'Equivocado')) {
+        if (b.innerText.trim() === disp || (disp.includes('Equivocado') && b.innerText.trim() === 'Equivocado')) {
           b.classList.add('selected');
         }
       });
     }
 
-    // ACCIONES NATIVAS A SUPABASE
     async function guardarDisposicion() {
-      if (!leadSeleccionado) return alert("Selecciona un prospecto primero.");
-      if (!disposicionSeleccionada) return alert("Por favor marca una opción de resultado.");
+      if (!leadSeleccionado) return alert("Selecciona un prospecto.");
+      if (!disposicionSeleccionada) return alert("Selecciona el resultado de la llamada.");
 
       const payload = {
         lead_id: leadSeleccionado.lead_id,
-        agent_name: leadSeleccionado.assigned_agent || (isAdmin ? 'Dirección' : 'Agente'),
+        agent_name: leadSeleccionado.assigned_agent || 'Agente',
         disposition: disposicionSeleccionada,
         notes: document.getElementById('disp-notes').value || null
       };
 
       try {
         await supabaseRequest('call_dispositions', 'POST', payload);
-        alert(`Disposición guardada: "${disposicionSeleccionada}" para ${leadSeleccionado.company_name}`);
+        alert(`Disposición guardada: ${disposicionSeleccionada}`);
         document.getElementById('disp-notes').value = '';
         document.querySelectorAll('.btn-disp').forEach(b => b.classList.remove('selected'));
         disposicionSeleccionada = '';
-      } catch (e) {
-        alert("Error al guardar: " + e.message);
-      }
+      } catch (e) { alert("Error al guardar: " + e.message); }
     }
 
     async function guardarCotizacion() {
-      if (!leadSeleccionado) return alert("Selecciona un prospecto primero.");
+      if (!leadSeleccionado) return alert("Selecciona un prospecto.");
 
       const payload = {
         lead_id: leadSeleccionado.lead_id,
         agent_name: leadSeleccionado.assigned_agent || 'Agente',
+        quote_amount: parseFloat(document.getElementById('q-amount').value) || 0,
         operation_type: document.getElementById('q-op-type').value,
         radius_of_operation: document.getElementById('q-radius').value,
         number_of_units: parseInt(document.getElementById('q-units').value) || 1,
         years_in_business: parseInt(document.getElementById('q-years').value) || 1,
         renewal_date: document.getElementById('q-renewal-date').value || null,
         current_insurance: document.getElementById('q-current-ins').value || null,
-        notes: document.getElementById('q-notes').value || null
+        notes: document.getElementById('q-notes').value || null,
+        status: 'En Seguimiento'
       };
 
       try {
         await supabaseRequest('quote_requests', 'POST', payload);
-        alert("¡Solicitud de Cotización registrada con éxito en Supabase!");
+        alert("¡Cotización guardada y registrada en el Pipeline!");
         cambiarTabInspector('tab-call');
-      } catch (e) {
-        alert("Error al guardar cotización: " + e.message);
-      }
+      } catch (e) { alert("Error al guardar: " + e.message); }
     }
 
     async function guardarVenta() {
-      if (!leadSeleccionado) return alert("Selecciona un prospecto primero.");
+      if (!leadSeleccionado) return alert("Selecciona un prospecto.");
       const premium = parseFloat(document.getElementById('s-premium').value);
       if (!premium || isNaN(premium)) return alert("Ingresa un valor válido de prima.");
+
+      const adminFee = parseFloat(document.getElementById('s-admin-fee').value) || 500;
 
       const payload = {
         lead_id: leadSeleccionado.lead_id,
@@ -1016,53 +1261,256 @@
         policy_number: document.getElementById('s-policy-no').value || 'PENDIENTE',
         insurance_carrier: document.getElementById('s-carrier').value || 'No especificada',
         premium_amount: premium,
+        admin_fee_amount: adminFee,
+        agent_commission_pct: 70.00,
         down_payment: parseFloat(document.getElementById('s-downpayment').value) || 0,
         effective_date: document.getElementById('s-effective-date').value || null,
-        expiration_date: document.getElementById('s-expiration-date').value || null,
-        sales_notes: document.getElementById('s-notes').value || null
+        sales_notes: document.getElementById('s-notes').value || null,
+        carrier_paid: false,
+        fee_transferred_to_agent: false
       };
 
       try {
         await supabaseRequest('policy_sales', 'POST', payload);
-        alert(`¡VENTA REGISTRADA EXITOSAMENTE! Prima: $${premium.toLocaleString()} USD`);
+        alert(`¡VENTA CERRADA! Prima: $${premium.toLocaleString()} USD | Fee: $${adminFee} USD`);
         cambiarTabInspector('tab-call');
-      } catch (e) {
-        alert("Error al registrar venta: " + e.message);
-      }
+        initApp(); // Refrescar Wallet
+      } catch (e) { alert("Error: " + e.message); }
     }
 
-    async function cargarKPIs() {
-      const tbody = document.getElementById('tbody-kpis');
-      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-dim);"><i class="fa-solid fa-circle-notch fa-spin mr-2" style="color:var(--orange-brand);"></i> Consultando métricas...</td></tr>`;
+    // TABLERO 1: TELEFONÍA QUO (CHARTS + MÉTRICAS)
+    function cambiarPeriodoQuo(periodo) {
+      periodoQuoActual = periodo;
+      document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(`btn-${periodo}`).classList.add('active');
+      cargarDashboardQuo();
+    }
 
+    async function cargarDashboardQuo() {
       try {
-        const data = await supabaseRequest('v_daily_agent_performance?select=*');
+        const data = await supabaseRequest('v_quo_effort_metrics?select=*&order=call_date.desc');
+        if (!data || data.length === 0) return;
+
+        let totalOutgoing = 0;
+        let totalConnects = 0;
+        let totalTalkTime = 0;
+
+        const dateMap = {};
+        const agentMap = {};
+
+        data.forEach(r => {
+          totalOutgoing += parseInt(r.total_outgoing) || 0;
+          totalConnects += parseInt(r.live_connects_60s) || 0;
+          totalTalkTime += parseFloat(r.talk_time_min) || 0;
+
+          // Agrupación temporal según botón activo
+          const key = periodoQuoActual === 'dod' ? r.call_date : periodoQuoActual === 'wow' ? `Sem ${r.call_week}` : `Mes ${r.call_month}`;
+          if (!dateMap[key]) dateMap[key] = { outgoing: 0, connects: 0 };
+          dateMap[key].outgoing += parseInt(r.total_outgoing) || 0;
+          dateMap[key].connects += parseInt(r.live_connects_60s) || 0;
+
+          // Split por asesor
+          const ag = r.agent_name || 'Sin Asignar';
+          if (!agentMap[ag]) agentMap[ag] = 0;
+          agentMap[ag] += parseInt(r.total_outgoing) || 0;
+        });
+
+        document.getElementById('kpi-quo-total').innerText = totalOutgoing;
+        document.getElementById('kpi-quo-connects').innerText = totalConnects;
+        document.getElementById('kpi-quo-talktime').innerText = `${Math.round(totalTalkTime)} min`;
+        const pct = totalOutgoing > 0 ? ((totalConnects / totalOutgoing) * 100).toFixed(1) : 0;
+        document.getElementById('kpi-quo-pct').innerText = `${pct}%`;
+
+        // Render Gráfica 1 (Barras / Líneas Tendencia)
+        const labels = Object.keys(dateMap).slice(0, 10).reverse();
+        const datasetOutgoing = labels.map(l => dateMap[l].outgoing);
+        const datasetConnects = labels.map(l => dateMap[l].connects);
+
+        if (chartQuoVol) chartQuoVol.destroy();
+        const ctxVol = document.getElementById('chartQuoVolume').getContext('2d');
+        chartQuoVol = new Chart(ctxVol, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Llamadas Salientes', data: datasetOutgoing, backgroundColor: '#E85D26', borderRadius: 4 },
+              { label: 'Live Connects (>60s)', data: datasetConnects, backgroundColor: '#2DD4BF', borderRadius: 4 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#9BB0A8', font: { family: 'Plus Jakarta Sans' } } } },
+            scales: {
+              x: { ticks: { color: '#6B827A' }, grid: { display: false } },
+              y: { ticks: { color: '#6B827A' }, grid: { color: '#1F332D' } }
+            }
+          }
+        });
+
+        // Render Gráfica 2 (Donut Asesores)
+        if (chartQuoSplit) chartQuoSplit.destroy();
+        const ctxSplit = document.getElementById('chartQuoAgentSplit').getContext('2d');
+        chartQuoSplit = new Chart(ctxSplit, {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(agentMap),
+            datasets: [{
+              data: Object.values(agentMap),
+              backgroundColor: ['#E85D26', '#2DD4BF', '#FBBF24', '#64748B']
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { color: '#9BB0A8' } } }
+          }
+        });
+
+        // Tabla detallada
+        const tbody = document.getElementById('tbody-quo-metrics');
+        tbody.innerHTML = data.slice(0, 15).map(r => `
+          <tr>
+            <td>${r.call_date}</td>
+            <td style="font-weight:700; color:#FFFFFF;">${r.agent_name}</td>
+            <td style="text-align:center;">${r.total_outgoing}</td>
+            <td style="text-align:center; color:var(--emerald-accent); font-weight:700;">${r.live_connects_60s}</td>
+            <td style="text-align:center;">${r.total_outgoing > 0 ? Math.round((r.live_connects_60s / r.total_outgoing) * 100) : 0}%</td>
+            <td style="text-align:center;">${r.talk_time_min}</td>
+            <td style="text-align:center; color:var(--text-dim);">${r.avg_duration_sec}s</td>
+          </tr>
+        `).join('');
+
+      } catch (e) { console.error("Error al cargar QUO dashboard:", e); }
+    }
+
+    // TABLERO 2: GERENCIAL & FINANCIERO (CON CONCILIACIÓN ADMIN)
+    async function cargarDashboardFinanciero() {
+      try {
+        const sales = await supabaseRequest('policy_sales?select=*,leads(company_name,contact_name)&order=created_at.desc');
+        if (!sales) return;
+
+        let totalPremium = 0;
+        let totalFees = 0;
+        let totalComm = 0;
+
+        sales.forEach(s => {
+          totalPremium += parseFloat(s.premium_amount) || 0;
+          totalFees += parseFloat(s.admin_fee_amount) || 0;
+          totalComm += parseFloat(s.agent_commission_amount) || 0;
+        });
+
+        document.getElementById('kpi-fin-policies').innerText = sales.length;
+        document.getElementById('kpi-fin-premium').innerText = `$${totalPremium.toLocaleString()} USD`;
+        document.getElementById('kpi-fin-fees').innerText = `$${totalFees.toLocaleString()} USD`;
+        document.getElementById('kpi-fin-commissions').innerText = `$${totalComm.toLocaleString()} USD`;
+
+        const tbody = document.getElementById('tbody-financial-audit');
+        tbody.innerHTML = sales.map(s => {
+          const compName = s.leads ? s.leads.company_name : 'Cliente Directo';
+          const carrierPaid = s.carrier_paid ? '<span style="color:var(--emerald-accent); font-weight:700;"><i class="fa-solid fa-check"></i> Pagado</span>' : '<span style="color:var(--text-dim);">Pendiente</span>';
+          const feeTransferred = s.fee_transferred_to_agent ? '<span style="color:var(--emerald-accent); font-weight:700;"><i class="fa-solid fa-check"></i> Transferido</span>' : '<span style="color:var(--gold-accent);">Por Transferir</span>';
+
+          return `
+            <tr>
+              <td>${new Date(s.created_at).toLocaleDateString()}</td>
+              <td style="color:#FFFFFF; font-weight:700;">${s.policy_number}</td>
+              <td>${compName}</td>
+              <td style="font-weight:700;">${s.agent_name}</td>
+              <td>${s.insurance_carrier}</td>
+              <td style="color:var(--emerald-accent); font-weight:700;">$${parseFloat(s.premium_amount).toLocaleString()}</td>
+              <td>$${parseFloat(s.admin_fee_amount || 0).toLocaleString()}</td>
+              <td style="color:var(--gold-accent); font-weight:700;">$${parseFloat(s.agent_commission_amount || 0).toLocaleString()}</td>
+              <td style="text-align:center;">${carrierPaid}</td>
+              <td style="text-align:center;">${feeTransferred}</td>
+              <td style="text-align:center;">
+                <button onclick="toggleFeeTransfer(${s.id}, ${s.fee_transferred_to_agent})" style="background:#15221F; border:1px solid var(--border-card); color:#FFFFFF; font-size:10px; padding:3px 8px; border-radius:5px; cursor:pointer;">
+                  ${s.fee_transferred_to_agent ? 'Marcar Pendiente' : 'Aprobar Pago'}
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+      } catch (e) { console.error("Error al cargar finanzas:", e); }
+    }
+
+    async function toggleFeeTransfer(saleId, currentState) {
+      if (!confirm(`¿Deseas cambiar el estado de transferencia de fee para esta venta?`)) return;
+      try {
+        await supabaseRequest(`policy_sales?id=eq.${saleId}`, 'PATCH', {
+          fee_transferred_to_agent: !currentState,
+          fee_transferred_date: !currentState ? new Date().toISOString().split('T')[0] : null
+        });
+        cargarDashboardFinanciero();
+        cargarWalletGeneral();
+      } catch (e) { alert("Error al actualizar: " + e.message); }
+    }
+
+    // TABLERO 3: PIPELINE & GESTIÓN DE PÉRDIDAS
+    async function cargarPipeline() {
+      const filtro = document.getElementById('filtro-pipe-status').value;
+      try {
+        let endpoint = 'quote_requests?select=*,leads(company_name,contact_name,primary_phone)&order=created_at.desc';
+        if (filtro !== 'todos') {
+          endpoint += `&status=eq.${encodeURIComponent(filtro)}`;
+        }
+        if (!isAdmin && agentParam && AGENT_MAPPING[agentParam.toLowerCase()]) {
+          endpoint += `&agent_name=eq.${encodeURIComponent(AGENT_MAPPING[agentParam.toLowerCase()])}`;
+        }
+
+        const data = await supabaseRequest(endpoint);
+        const tbody = document.getElementById('tbody-pipeline');
         if (!data || data.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-dim);">No hay llamadas registradas en esta fecha.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:3rem; color:var(--text-dim);">No hay cotizaciones registradas en este estado.</td></tr>`;
           return;
         }
 
-        tbody.innerHTML = data.map(r => `
-          <tr>
-            <td style="color:var(--text-muted);">${r.call_date}</td>
-            <td style="font-weight:700; color:#FFFFFF; font-family:'Plus Jakarta Sans';">${r.agent_name}</td>
-            <td style="text-align:center; font-weight:700;">${r.total_calls}</td>
-            <td style="text-align:center; color:var(--emerald-accent); font-weight:600;">${r.successful_connections}</td>
-            <td style="text-align:center;">
-              <span style="padding:2px 7px; border-radius:5px; font-size:10px; font-weight:700; ${r.connection_rate_pct >= 50 ? 'background:rgba(45,212,191,0.15); color:var(--emerald-accent);' : 'background:rgba(232,93,38,0.15); color:var(--orange-light);'}">
-                ${r.connection_rate_pct}%
-              </span>
-            </td>
-            <td style="text-align:center;">${r.total_talk_time_minutes} min</td>
-            <td style="text-align:center; color:var(--text-muted);">${r.avg_duration_seconds}s</td>
-            <td style="text-align:center; color:var(--orange-light); font-weight:600;">${r.calls_with_recordings || 0}</td>
-          </tr>
-        `).join('');
-      } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:#FDA4AF;">Error: ${err.message}</td></tr>`;
-      }
+        tbody.innerHTML = data.map(q => {
+          const comp = q.leads ? q.leads.company_name : 'Prospecto';
+          const lossBadge = q.loss_reason ? `<span style="color:#FDA4AF; background:rgba(159,18,57,0.3); padding:2px 7px; border-radius:4px; font-size:10px;">${q.loss_reason}</span>` : '-';
+          
+          return `
+            <tr>
+              <td>${new Date(q.created_at).toLocaleDateString()}</td>
+              <td style="font-weight:700; color:#FFFFFF;">${comp}</td>
+              <td>${q.agent_name}</td>
+              <td>${q.operation_type}</td>
+              <td style="text-align:center;">${q.number_of_units}</td>
+              <td style="color:var(--emerald-accent); font-weight:700;">$${parseFloat(q.quote_amount || 0).toLocaleString()}</td>
+              <td><span class="status-pill ${q.status === 'En Seguimiento' ? 'pending' : q.status === 'Cerrada Ganada' ? 'called' : ''}">${q.status}</span></td>
+              <td>${lossBadge}</td>
+              <td style="text-align:center;">
+                ${q.status === 'En Seguimiento' ? `
+                  <button onclick="marcarPerdida(${q.id})" style="background:#2C1518; border:1px solid #7F1D1D; color:#FCA5A5; font-size:10px; padding:3px 7px; border-radius:5px; cursor:pointer;">
+                    Marcar Pérdida
+                  </button>
+                ` : '-'}
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+      } catch (e) { console.error("Error al cargar pipeline:", e); }
     }
 
+    async function marcarPerdida(quoteId) {
+      const reason = prompt("Indica el motivo de la pérdida:\n1. Precio alto\n2. Renovó con actual\n3. No califica / MVR sucio\n4. Ghosting / No responde\n5. Otro", "Precio alto");
+      if (!reason) return;
+      const notes = prompt("Notas adicionales de la pérdida:");
+
+      try {
+        await supabaseRequest(`quote_requests?id=eq.${quoteId}`, 'PATCH', {
+          status: 'Perdida',
+          loss_reason: reason,
+          loss_notes: notes || null
+        });
+        alert("Cotización actualizada como Perdida.");
+        cargarPipeline();
+      } catch (e) { alert("Error al registrar pérdida: " + e.message); }
+    }
+
+    // ARRANQUE
     initApp();
   </script>
 </body>
